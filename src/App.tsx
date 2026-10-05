@@ -9,6 +9,7 @@ import { ServicesSection } from "./components/ServicesSection"
 import { ProjectsSection } from "./components/ProjectsSection"
 import { WhyUsSection } from "./components/WhyUsSection"
 import { ReviewsSection } from "./components/ReviewsSection"
+import { BlogSection } from "./components/BlogSection"
 import { ContactSection } from "./components/ContactSection"
 import { Footer } from "./components/Footer"
 
@@ -24,40 +25,19 @@ export default function App() {
   const heroWrapperRef = useRef<HTMLDivElement>(null)
   const heroContentRef = useRef<HTMLDivElement>(null)
   const videoContainerRef = useRef<HTMLDivElement>(null)
-  const videoRef = useRef<HTMLVideoElement>(null)
 
-  // Ensure video plays on mount (some browsers block autoplay)
+  // Initialize Lenis Smooth Scroll and GSAP ScrollTrigger
   useEffect(() => {
-    const vid = videoRef.current
-    if (vid) {
-      vid.muted = true
-      const playPromise = vid.play()
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // Autoplay was prevented, try again on user interaction
-          const handleInteraction = () => {
-            vid.play()
-            document.removeEventListener('click', handleInteraction)
-            document.removeEventListener('touchstart', handleInteraction)
-          }
-          document.addEventListener('click', handleInteraction)
-          document.addEventListener('touchstart', handleInteraction)
-        })
-      }
-    }
-  }, [])
-
-  useEffect(() => {
-    // 1. Initialize Lenis Smooth Scroll
+    // 1. Initialize Lenis
     const lenis = new Lenis({
-      duration: 1.35,
+      duration: 1.25,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       touchMultiplier: 1.8,
       infinite: false,
     })
     lenisRef.current = lenis
 
-    // 2. Connect Lenis to ScrollTrigger
+    // 2. Sync Lenis with GSAP ScrollTrigger
     lenis.on("scroll", ScrollTrigger.update)
 
     const tickerCb = (time: number) => {
@@ -66,304 +46,69 @@ export default function App() {
     gsap.ticker.add(tickerCb)
     gsap.ticker.lagSmoothing(0)
 
-    // 3. Rich, Section-Specific GSAP Animations
+    // 3. Unique Cinematic Hero Scroll Animation
     const ctx = gsap.context(() => {
-      // ==========================================
-      // ANIMATION 1: HERO PINNED 3D RECEDE & APERTURE
-      // ==========================================
+      // Pin & scale transition from Hero to Next Section
       if (heroWrapperRef.current && videoContainerRef.current && heroContentRef.current) {
-        const heroTl = gsap.timeline({
+        const heroTimeline = gsap.timeline({
           scrollTrigger: {
             trigger: heroWrapperRef.current,
             start: "top top",
-            end: "+=90%",
-            scrub: 1.2,
+            end: "+=85%",
+            scrub: 1.1,
             pin: true,
             anticipatePin: 1,
           },
         })
 
-        heroTl
+        heroTimeline
+          // Scale down the video container into a floating cinematic card with rounded corners
           .to(
             videoContainerRef.current,
             {
-              scale: 0.88,
-              borderRadius: "40px",
-              opacity: 0.25,
-              filter: "blur(3px) brightness(0.6)",
-              boxShadow: "0 30px 100px -20px rgba(0,0,0,0.8)",
+              scale: 0.91,
+              borderRadius: "32px",
+              opacity: 0.35,
+              filter: "blur(2px)",
               ease: "power2.inOut",
             },
             0
           )
+          // Float hero text elements upward and fade out
           .to(
             heroContentRef.current,
             {
-              y: -110,
+              y: -90,
               opacity: 0,
-              scale: 0.94,
-              letterSpacing: "1px",
+              scale: 0.96,
               ease: "power2.in",
             },
             0
           )
       }
 
-      // ==========================================
-      // ANIMATION 2: ABOUT SECTION (Metric Counter Flip & Manifesto Fold)
-      // ==========================================
-      const aboutSec = document.querySelector<HTMLElement>(".section-about")
-      if (aboutSec) {
-        const aboutTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: aboutSec,
-            start: "top 78%",
-            toggleActions: "play none none reverse",
-          },
-        })
-
-        aboutTl
-          .from(aboutSec.querySelectorAll(".sec-badge, .sec-title, .sec-subtitle"), {
-            y: 35,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.12,
-            ease: "power3.out",
-          })
-          .from(
-            aboutSec.querySelectorAll(".about-stat-card"),
-            {
-              y: 50,
-              opacity: 0,
-              scale: 0.92,
-              duration: 0.9,
-              stagger: 0.15,
-              ease: "back.out(1.4)",
-            },
-            "-=0.5"
-          )
-          .from(
-            aboutSec.querySelectorAll(".about-showcase"),
-            {
-              y: 60,
-              opacity: 0,
-              duration: 1,
-              ease: "power3.out",
-            },
-            "-=0.4"
-          )
-      }
-
-      // ==========================================
-      // ANIMATION 3: SERVICES SECTION (Magnetic 3D Card Unfurl)
-      // ==========================================
-      const servicesSec = document.querySelector<HTMLElement>(".section-services")
-      if (servicesSec) {
-        const servicesTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: servicesSec,
-            start: "top 75%",
-            toggleActions: "play none none reverse",
-          },
-        })
-
-        servicesTl
-          .from(servicesSec.querySelectorAll(".sec-badge, .sec-title, .sec-subtitle"), {
-            y: 35,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.12,
-            ease: "power3.out",
-          })
-          .from(
-            servicesSec.querySelectorAll(".service-card"),
-            {
-              y: 70,
-              opacity: 0,
-              scale: 0.94,
-              rotationX: 12,
-              transformOrigin: "center top",
-              duration: 0.9,
-              stagger: 0.16,
-              ease: "power3.out",
-            },
-            "-=0.4"
-          )
-          .from(
-            servicesSec.querySelectorAll(".service-icon"),
-            {
-              scale: 0,
-              rotation: -25,
-              duration: 0.6,
-              stagger: 0.12,
-              ease: "back.out(2)",
-            },
-            "-=0.6"
-          )
-      }
-
-      // ==========================================
-      // ANIMATION 4: PROJECTS DONE (Curtain Rise & Depth Parallax)
-      // ==========================================
-      const projectCards = gsap.utils.toArray<HTMLElement>(".project-card")
-      projectCards.forEach((card) => {
+      // Smooth entrance reveal for each section
+      const sections = gsap.utils.toArray<HTMLElement>(".reveal-on-scroll")
+      sections.forEach((section) => {
         gsap.fromTo(
-          card,
+          section,
           {
             opacity: 0,
-            y: 80,
-            scale: 0.93,
-            filter: "blur(4px)",
+            y: 40,
           },
           {
             opacity: 1,
             y: 0,
-            scale: 1,
-            filter: "blur(0px)",
-            duration: 1.1,
+            duration: 1,
             ease: "power3.out",
             scrollTrigger: {
-              trigger: card,
-              start: "top 85%",
+              trigger: section,
+              start: "top 82%",
               toggleActions: "play none none reverse",
             },
           }
         )
       })
-
-      // ==========================================
-      // ANIMATION 5: WHY US (Staggered Pillar Slide & Scale)
-      // ==========================================
-      const whyUsSec = document.querySelector<HTMLElement>(".section-why-us")
-      if (whyUsSec) {
-        const whyUsTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: whyUsSec,
-            start: "top 76%",
-            toggleActions: "play none none reverse",
-          },
-        })
-
-        whyUsTl
-          .from(whyUsSec.querySelectorAll(".sec-badge, .sec-title, .sec-subtitle"), {
-            y: 35,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.12,
-            ease: "power3.out",
-          })
-          .from(
-            whyUsSec.querySelectorAll(".why-us-card"),
-            {
-              y: 50,
-              opacity: 0,
-              stagger: 0.1,
-              duration: 0.8,
-              ease: "power2.out",
-            },
-            "-=0.4"
-          )
-          .from(
-            whyUsSec.querySelectorAll(".why-us-icon"),
-            {
-              scale: 0,
-              opacity: 0,
-              stagger: 0.1,
-              duration: 0.5,
-              ease: "back.out(1.8)",
-            },
-            "-=0.6"
-          )
-      }
-
-      // ==========================================
-      // ANIMATION 6: REVIEWS (Staggered Floating Cards & Star Twinkle)
-      // ==========================================
-      const reviewsSec = document.querySelector<HTMLElement>(".section-reviews")
-      if (reviewsSec) {
-        const reviewsTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: reviewsSec,
-            start: "top 76%",
-            toggleActions: "play none none reverse",
-          },
-        })
-
-        reviewsTl
-          .from(reviewsSec.querySelectorAll(".sec-badge, .sec-title, .sec-subtitle"), {
-            y: 35,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.12,
-            ease: "power3.out",
-          })
-          .from(
-            reviewsSec.querySelectorAll(".review-card"),
-            {
-              y: 60,
-              opacity: 0,
-              scale: 0.95,
-              duration: 0.9,
-              stagger: 0.16,
-              ease: "power3.out",
-            },
-            "-=0.4"
-          )
-          .from(
-            reviewsSec.querySelectorAll(".review-stars svg"),
-            {
-              scale: 0,
-              opacity: 0,
-              duration: 0.4,
-              stagger: 0.03,
-              ease: "back.out(2)",
-            },
-            "-=0.5"
-          )
-      }
-
-      // ==========================================
-      // ANIMATION 7: CONTACT (Split Gate Reveal - Left Card & Right Form)
-      // ==========================================
-      const contactSec = document.querySelector<HTMLElement>(".section-contact")
-      if (contactSec) {
-        const contactTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: contactSec,
-            start: "top 76%",
-            toggleActions: "play none none reverse",
-          },
-        })
-
-        contactTl
-          .from(contactSec.querySelectorAll(".sec-badge, .sec-title, .sec-subtitle"), {
-            y: 35,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.12,
-            ease: "power3.out",
-          })
-          .from(
-            contactSec.querySelectorAll(".contact-left-card"),
-            {
-              x: -50,
-              opacity: 0,
-              duration: 0.9,
-              ease: "power3.out",
-            },
-            "-=0.4"
-          )
-          .from(
-            contactSec.querySelectorAll(".contact-right-card"),
-            {
-              x: 50,
-              opacity: 0,
-              duration: 0.9,
-              ease: "power3.out",
-            },
-            "-=0.7"
-          )
-      }
     })
 
     return () => {
@@ -374,7 +119,7 @@ export default function App() {
     }
   }, [])
 
-  // Smooth scroll handler with custom easing
+  // Smooth scroll handler
   const scrollTo = (target: string) => {
     setMobileMenuOpen(false)
     const element = target === "hero" ? 0 : document.getElementById(target)
@@ -386,16 +131,6 @@ export default function App() {
       })
     }
   }
-
-  const navLinks = [
-    { label: "Home", id: "hero" },
-    { label: "About", id: "about" },
-    { label: "Services", id: "services" },
-    { label: "Projects", id: "work" },
-    { label: "Why Us", id: "why-us" },
-    { label: "Reviews", id: "reviews" },
-    { label: "Contact", id: "contact" },
-  ]
 
   return (
     <div className="relative min-h-screen w-full bg-background text-foreground selection:bg-white/20 selection:text-white">
@@ -415,9 +150,18 @@ export default function App() {
             <sup className="text-xs ml-0.5 font-sans">®</sup>
           </button>
 
-          {/* Desktop Navigation Links (Blog removed) */}
-          <div className="hidden lg:flex items-center space-x-8">
-            {navLinks.map((link) => (
+          {/* Desktop Navigation Links */}
+          <div className="hidden lg:flex items-center space-x-7">
+            {[
+              { label: "Home", id: "hero" },
+              { label: "About", id: "about" },
+              { label: "Services", id: "services" },
+              { label: "Projects", id: "work" },
+              { label: "Why Us", id: "why-us" },
+              { label: "Reviews", id: "reviews" },
+              { label: "Blog", id: "blog" },
+              { label: "Contact", id: "contact" },
+            ].map((link) => (
               <button
                 key={link.id}
                 onClick={() => scrollTo(link.id)}
@@ -450,7 +194,16 @@ export default function App() {
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
           <div className="lg:hidden px-6 py-6 mx-4 mt-2 rounded-2xl glass-card border border-white/10 flex flex-col space-y-4 backdrop-blur-xl animate-fade-rise">
-            {navLinks.map((link) => (
+            {[
+              { label: "Home", id: "hero" },
+              { label: "About Us", id: "about" },
+              { label: "Our Services", id: "services" },
+              { label: "Projects Done", id: "work" },
+              { label: "Why Us", id: "why-us" },
+              { label: "Reviews", id: "reviews" },
+              { label: "Blog & Insights", id: "blog" },
+              { label: "Contact Studio", id: "contact" },
+            ].map((link) => (
               <button
                 key={link.id}
                 onClick={() => scrollTo(link.id)}
@@ -464,27 +217,20 @@ export default function App() {
       </header>
 
       {/* Hero Section Container (Pinned during scroll transition) */}
-      <div
-        ref={heroWrapperRef}
-        className="relative h-screen w-full overflow-hidden flex flex-col justify-between"
-      >
+      <div ref={heroWrapperRef} className="relative h-screen w-full overflow-hidden flex flex-col justify-between">
         {/* Fullscreen Looping Video Container */}
         <div
           ref={videoContainerRef}
           className="absolute inset-0 w-full h-full overflow-hidden z-0 pointer-events-none transform-gpu origin-center"
         >
           <video
-            ref={videoRef}
             autoPlay
             loop
             muted
             playsInline
-            preload="auto"
-            crossOrigin="anonymous"
             className="w-full h-full object-cover"
-          >
-            <source src={VIDEO_SRC} type="video/mp4" />
-          </video>
+            src={VIDEO_SRC}
+          />
         </div>
 
         {/* Centered Hero Content */}
@@ -532,14 +278,35 @@ export default function App() {
         </div>
       </div>
 
-      {/* Sections with Distinct Animations */}
+      {/* Content Sections with Smooth Scroll Reveals */}
       <div className="relative z-20 space-y-24 sm:space-y-32">
-        <AboutSection />
-        <ServicesSection />
-        <ProjectsSection />
-        <WhyUsSection />
-        <ReviewsSection />
-        <ContactSection />
+        <div className="reveal-on-scroll">
+          <AboutSection />
+        </div>
+
+        <div className="reveal-on-scroll">
+          <ServicesSection />
+        </div>
+
+        <div className="reveal-on-scroll">
+          <ProjectsSection />
+        </div>
+
+        <div className="reveal-on-scroll">
+          <WhyUsSection />
+        </div>
+
+        <div className="reveal-on-scroll">
+          <ReviewsSection />
+        </div>
+
+        <div className="reveal-on-scroll">
+          <BlogSection />
+        </div>
+
+        <div className="reveal-on-scroll">
+          <ContactSection />
+        </div>
       </div>
 
       {/* Global Footer */}

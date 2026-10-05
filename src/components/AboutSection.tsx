@@ -9,7 +9,7 @@ export function AboutSection() {
   ]
 
   return (
-    <section id="about" className="section-about relative py-32 px-6 max-w-7xl mx-auto w-full z-10">
+    <section id="about" className="relative py-32 px-6 max-w-7xl mx-auto w-full z-10">
       <SectionHeader
         badge="About Us"
         title="We build digital products that"
@@ -21,12 +21,9 @@ export function AboutSection() {
         {stats.map((stat, idx) => (
           <div
             key={idx}
-            className="about-stat-card glass-card rounded-2xl p-8 transition-colors duration-300 hover:border-white/20 relative overflow-hidden group"
+            className="glass-card rounded-2xl p-8 transition-all duration-300 hover:border-white/20 hover:-translate-y-1 relative overflow-hidden group"
           >
-            <div
-              className="text-4xl sm:text-5xl font-normal text-foreground mb-2"
-              style={{ fontFamily: "'Instrument Serif', serif" }}
-            >
+            <div className="text-4xl sm:text-5xl font-normal text-foreground mb-2" style={{ fontFamily: "'Instrument Serif', serif" }}>
               {stat.value}
             </div>
             <div className="text-sm font-medium text-foreground mb-1">{stat.label}</div>
@@ -36,7 +33,7 @@ export function AboutSection() {
         ))}
       </div>
 
-      <div className="about-showcase glass-card rounded-3xl p-8 sm:p-12 relative overflow-hidden">
+      <div className="glass-card rounded-3xl p-8 sm:p-12 relative overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <div>
             <h3
