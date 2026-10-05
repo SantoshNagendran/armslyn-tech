@@ -13,12 +13,11 @@ export function Footer({ onScrollToTop, onNavigate }: FooterProps) {
     { label: "Projects", id: "work" },
     { label: "Why Us", id: "why-us" },
     { label: "Reviews", id: "reviews" },
-    { label: "Blog", id: "blog" },
     { label: "Contact", id: "contact" },
   ]
 
   return (
-    <footer className="relative border-t border-white/10 py-16 px-6 max-w-7xl mx-auto w-full z-10">
+    <footer className="footer-section relative border-t border-white/10 py-16 px-6 max-w-7xl mx-auto w-full z-10">
       <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-12">
         <div>
           <span

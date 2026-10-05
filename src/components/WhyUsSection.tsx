@@ -26,7 +26,7 @@ export function WhyUsSection() {
   ]
 
   return (
-    <section id="why-us" className="relative py-32 px-6 max-w-7xl mx-auto w-full z-10">
+    <section id="why-us" className="section-why-us relative py-32 px-6 max-w-7xl mx-auto w-full z-10">
       <SectionHeader
         badge="Why Us"
         title="Engineered differently because"
@@ -34,16 +34,16 @@ export function WhyUsSection() {
         subtitle="Here is why growing companies and creative visionaries choose Armslyn Tech over traditional bloated agencies."
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="why-us-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {reasons.map((reason, idx) => {
           const Icon = reason.icon
           return (
             <div
               key={idx}
-              className="glass-card rounded-2xl p-7 transition-all duration-300 hover:border-white/20 hover:-translate-y-1 relative group flex flex-col justify-between"
+              className="why-us-card glass-card rounded-2xl p-7 transition-colors duration-300 hover:border-white/20 relative group flex flex-col justify-between"
             >
               <div>
-                <div className="w-10 h-10 rounded-xl liquid-glass flex items-center justify-center text-foreground mb-6">
+                <div className="why-us-icon w-10 h-10 rounded-xl liquid-glass flex items-center justify-center text-foreground mb-6">
                   <Icon className="w-5 h-5 text-white" />
                 </div>
 

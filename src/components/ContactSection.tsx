@@ -21,7 +21,7 @@ export function ContactSection() {
   }
 
   return (
-    <section id="contact" className="relative py-32 px-6 max-w-7xl mx-auto w-full z-10">
+    <section id="contact" className="section-contact relative py-32 px-6 max-w-7xl mx-auto w-full z-10">
       <SectionHeader
         badge="Contact Us"
         title="Ready to build something"
@@ -29,9 +29,9 @@ export function ContactSection() {
         subtitle="Tell us about your brand, goals, and timeline. We'll get back to you within 24 hours with a comprehensive evaluation."
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
+      <div className="contact-wrapper grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
         {/* Left Studio Details Card */}
-        <div className="lg:col-span-5 glass-card rounded-3xl p-8 sm:p-10 flex flex-col justify-between">
+        <div className="contact-left-card lg:col-span-5 glass-card rounded-3xl p-8 sm:p-10 flex flex-col justify-between">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-8">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -72,7 +72,7 @@ export function ContactSection() {
         </div>
 
         {/* Right Contact Form Card */}
-        <div className="lg:col-span-7 glass-card rounded-3xl p-8 sm:p-12 relative">
+        <div className="contact-right-card lg:col-span-7 glass-card rounded-3xl p-8 sm:p-12 relative">
           {submitted ? (
             <div className="h-full min-h-[360px] flex flex-col items-center justify-center text-center py-12">
               <div className="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-4">

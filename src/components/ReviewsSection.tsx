@@ -27,7 +27,7 @@ export function ReviewsSection() {
   ]
 
   return (
-    <section id="reviews" className="relative py-32 px-6 max-w-7xl mx-auto w-full z-10">
+    <section id="reviews" className="section-reviews relative py-32 px-6 max-w-7xl mx-auto w-full z-10">
       <SectionHeader
         badge="Reviews"
         title="Trusted by founders who value"
@@ -35,14 +35,14 @@ export function ReviewsSection() {
         subtitle="Read what partners and founders have to say about collaborating with Armslyn Tech."
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="reviews-grid grid grid-cols-1 md:grid-cols-3 gap-8">
         {reviews.map((rev, idx) => (
           <div
             key={idx}
-            className="glass-card rounded-3xl p-8 sm:p-10 transition-all duration-300 hover:border-white/20 hover:-translate-y-1 relative group flex flex-col justify-between"
+            className="review-card glass-card rounded-3xl p-8 sm:p-10 transition-colors duration-300 hover:border-white/20 relative group flex flex-col justify-between"
           >
             <div>
-              <div className="flex items-center gap-1 mb-6">
+              <div className="review-stars flex items-center gap-1 mb-6">
                 {[...Array(rev.rating)].map((_, i) => (
                   <Star key={i} className="w-4 h-4 fill-amber-300 text-amber-300" />
                 ))}
@@ -53,7 +53,7 @@ export function ReviewsSection() {
               </blockquote>
             </div>
 
-            <div className="pt-6 border-t border-white/10 flex items-center gap-3">
+            <div className="review-author pt-6 border-t border-white/10 flex items-center gap-3">
               <div className="w-10 h-10 rounded-full liquid-glass flex items-center justify-center font-mono text-xs font-semibold text-white">
                 {rev.author.split(" ").map(n => n[0]).join("")}
               </div>

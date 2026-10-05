@@ -30,7 +30,7 @@ export function ProjectsSection() {
   ]
 
   return (
-    <section id="work" className="relative py-32 px-6 max-w-7xl mx-auto w-full z-10">
+    <section id="work" className="section-projects relative py-32 px-6 max-w-7xl mx-auto w-full z-10">
       <SectionHeader
         badge="Projects Done"
         title="Curated work built to"
@@ -38,11 +38,11 @@ export function ProjectsSection() {
         subtitle="Selected case studies representing our dedication to typography, motion fluidity, and uncompromising engineering."
       />
 
-      <div className="space-y-8">
+      <div className="projects-container space-y-8">
         {projects.map((project, idx) => (
           <div
             key={idx}
-            className="glass-card rounded-3xl p-8 sm:p-12 transition-all duration-300 hover:border-white/20 group relative overflow-hidden"
+            className="project-card glass-card rounded-3xl p-8 sm:p-12 transition-colors duration-300 hover:border-white/20 group relative overflow-hidden"
           >
             <div className={`absolute -right-20 -top-20 w-80 h-80 rounded-full bg-gradient-to-br ${project.accent} blur-3xl pointer-events-none group-hover:scale-125 transition-transform duration-700 opacity-60`} />
 

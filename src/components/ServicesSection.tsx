@@ -30,7 +30,7 @@ export function ServicesSection() {
   ]
 
   return (
-    <section id="services" className="relative py-32 px-6 max-w-7xl mx-auto w-full z-10">
+    <section id="services" className="section-services relative py-32 px-6 max-w-7xl mx-auto w-full z-10">
       <SectionHeader
         badge="Our Services"
         title="Engineering excellence for brands that"
@@ -38,16 +38,16 @@ export function ServicesSection() {
         subtitle="We deliver end-to-end design and code solutions that balance cinematic artistry with rock-solid technical execution."
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="services-grid grid grid-cols-1 md:grid-cols-2 gap-8">
         {services.map((service, index) => {
           const Icon = service.icon
           return (
             <div
               key={index}
-              className="glass-card rounded-3xl p-8 sm:p-10 transition-all duration-300 hover:border-white/20 hover:-translate-y-1.5 relative overflow-hidden group flex flex-col justify-between"
+              className="service-card glass-card rounded-3xl p-8 sm:p-10 transition-colors duration-300 hover:border-white/20 relative overflow-hidden group flex flex-col justify-between"
             >
               <div>
-                <div className="w-12 h-12 rounded-2xl liquid-glass flex items-center justify-center text-foreground mb-6">
+                <div className="service-icon w-12 h-12 rounded-2xl liquid-glass flex items-center justify-center text-foreground mb-6">
                   <Icon className="w-6 h-6 text-white" />
                 </div>
 
