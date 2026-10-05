@@ -24,6 +24,28 @@ export default function App() {
   const heroWrapperRef = useRef<HTMLDivElement>(null)
   const heroContentRef = useRef<HTMLDivElement>(null)
   const videoContainerRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  // Ensure video plays on mount (some browsers block autoplay)
+  useEffect(() => {
+    const vid = videoRef.current
+    if (vid) {
+      vid.muted = true
+      const playPromise = vid.play()
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Autoplay was prevented, try again on user interaction
+          const handleInteraction = () => {
+            vid.play()
+            document.removeEventListener('click', handleInteraction)
+            document.removeEventListener('touchstart', handleInteraction)
+          }
+          document.addEventListener('click', handleInteraction)
+          document.addEventListener('touchstart', handleInteraction)
+        })
+      }
+    }
+  }, [])
 
   useEffect(() => {
     // 1. Initialize Lenis Smooth Scroll
@@ -452,13 +474,17 @@ export default function App() {
           className="absolute inset-0 w-full h-full overflow-hidden z-0 pointer-events-none transform-gpu origin-center"
         >
           <video
+            ref={videoRef}
             autoPlay
             loop
             muted
             playsInline
+            preload="auto"
+            crossOrigin="anonymous"
             className="w-full h-full object-cover"
-            src={VIDEO_SRC}
-          />
+          >
+            <source src={VIDEO_SRC} type="video/mp4" />
+          </video>
         </div>
 
         {/* Centered Hero Content */}
