@@ -1,32 +1,56 @@
-# React + TypeScript + Vite
+# Armslyn Tech — Single Page Hero
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Modern, cinematic web development studio hero section built with **React**, **Vite**, **Tailwind CSS**, and **TypeScript**.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Fullscreen Looping Background Video**: High-definition video with `autoPlay`, `loop`, `muted`, and `playsInline`.
+- **Instrument Serif & Inter Typography**: Editorial typography with responsive scaling and selective foreground/muted contrast.
+- **Liquid Glass Aesthetics**: Modern glassmorphic borders with luminosity blend, backdrop blur, and gradient mask.
+- **Micro-Animations**: Staggered `fade-rise` entrance animations for heading, subtext, and CTA buttons.
+- **GitHub Pages Ready**: Static relative asset routing (`base: './'`) and automated CI/CD workflow.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Deploying to GitHub Pages
 
-## Expanding the Oxlint configuration
+### 1. Create a Repository on GitHub
+Create a new public repository on [github.com/new](https://github.com/new) (e.g. `armslyn-tech` or `our-web`).
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+### 2. Connect Remote and Push
+Run the following in PowerShell / Terminal in this project directory:
+```bash
+git remote add origin https://github.com/<YOUR-USERNAME>/<YOUR-REPO-NAME>.git
+git branch -M main
+git push -u origin main
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+### 3. Enable GitHub Pages
+1. Go to your repository on GitHub: `Settings` → `Pages`.
+2. Under **Build and deployment** → **Source**, select **GitHub Actions**.
+3. The `.github/workflows/deploy.yml` workflow will automatically trigger, build the static files, and deploy your site to:
+   ```
+   https://<YOUR-USERNAME>.github.io/<YOUR-REPO-NAME>/
+   ```
+
+### Alternative: Direct Deploy via npm
+If you prefer not using GitHub Actions, you can deploy directly with:
+```bash
+npm run deploy
+```
+*(This builds the site and pushes the `dist` folder to a `gh-pages` branch).*
+
+---
+
+## Local Development
+
+```bash
+# Install dependencies
+npm install
+
+# Start local dev server
+npm run dev
+
+# Build production static bundle
+npm run build
+```
