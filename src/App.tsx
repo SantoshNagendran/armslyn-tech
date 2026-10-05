@@ -1,109 +1,316 @@
+import { useEffect, useRef, useState } from "react"
+import Lenis from "lenis"
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { ChevronDown, Menu, X } from "lucide-react"
+
+import { AboutSection } from "./components/AboutSection"
+import { ServicesSection } from "./components/ServicesSection"
+import { ProjectsSection } from "./components/ProjectsSection"
+import { WhyUsSection } from "./components/WhyUsSection"
+import { ReviewsSection } from "./components/ReviewsSection"
+import { BlogSection } from "./components/BlogSection"
+import { ContactSection } from "./components/ContactSection"
+import { Footer } from "./components/Footer"
+
+gsap.registerPlugin(ScrollTrigger)
+
 const BRAND_NAME = "Armslyn Tech"
-const VIDEO_SRC = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4"
+const VIDEO_SRC =
+  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4"
 
 export default function App() {
-  return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-background text-foreground flex flex-col selection:bg-white/20 selection:text-white">
-      {/* Fullscreen Looping Background Video */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
-        src={VIDEO_SRC}
-      />
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const lenisRef = useRef<Lenis | null>(null)
+  const heroWrapperRef = useRef<HTMLDivElement>(null)
+  const heroContentRef = useRef<HTMLDivElement>(null)
+  const videoContainerRef = useRef<HTMLDivElement>(null)
 
-      {/* Navigation Bar */}
-      <header className="relative z-10 w-full">
+  // Initialize Lenis Smooth Scroll and GSAP ScrollTrigger
+  useEffect(() => {
+    // 1. Initialize Lenis
+    const lenis = new Lenis({
+      duration: 1.25,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      touchMultiplier: 1.8,
+      infinite: false,
+    })
+    lenisRef.current = lenis
+
+    // 2. Sync Lenis with GSAP ScrollTrigger
+    lenis.on("scroll", ScrollTrigger.update)
+
+    const tickerCb = (time: number) => {
+      lenis.raf(time * 1000)
+    }
+    gsap.ticker.add(tickerCb)
+    gsap.ticker.lagSmoothing(0)
+
+    // 3. Unique Cinematic Hero Scroll Animation
+    const ctx = gsap.context(() => {
+      // Pin & scale transition from Hero to Next Section
+      if (heroWrapperRef.current && videoContainerRef.current && heroContentRef.current) {
+        const heroTimeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: heroWrapperRef.current,
+            start: "top top",
+            end: "+=85%",
+            scrub: 1.1,
+            pin: true,
+            anticipatePin: 1,
+          },
+        })
+
+        heroTimeline
+          // Scale down the video container into a floating cinematic card with rounded corners
+          .to(
+            videoContainerRef.current,
+            {
+              scale: 0.91,
+              borderRadius: "32px",
+              opacity: 0.35,
+              filter: "blur(2px)",
+              ease: "power2.inOut",
+            },
+            0
+          )
+          // Float hero text elements upward and fade out
+          .to(
+            heroContentRef.current,
+            {
+              y: -90,
+              opacity: 0,
+              scale: 0.96,
+              ease: "power2.in",
+            },
+            0
+          )
+      }
+
+      // Smooth entrance reveal for each section
+      const sections = gsap.utils.toArray<HTMLElement>(".reveal-on-scroll")
+      sections.forEach((section) => {
+        gsap.fromTo(
+          section,
+          {
+            opacity: 0,
+            y: 40,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 82%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        )
+      })
+    })
+
+    return () => {
+      ctx.revert()
+      gsap.ticker.remove(tickerCb)
+      lenis.destroy()
+      lenisRef.current = null
+    }
+  }, [])
+
+  // Smooth scroll handler
+  const scrollTo = (target: string) => {
+    setMobileMenuOpen(false)
+    const element = target === "hero" ? 0 : document.getElementById(target)
+    if (element !== null && lenisRef.current) {
+      lenisRef.current.scrollTo(element, {
+        duration: 1.4,
+        offset: -40,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      })
+    }
+  }
+
+  return (
+    <div className="relative min-h-screen w-full bg-background text-foreground selection:bg-white/20 selection:text-white">
+      {/* Fixed Luxury Header Navigation */}
+      <header className="fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300">
         <nav
-          className="relative z-10 flex row justify-between items-center px-8 py-6 max-w-7xl mx-auto w-full"
+          className="flex row justify-between items-center px-6 sm:px-8 py-5 max-w-7xl mx-auto w-full backdrop-blur-md bg-background/30 rounded-b-2xl border-b border-white/5"
           aria-label="Main Navigation"
         >
           {/* Logo */}
-          <a
-            href="#"
-            className="text-3xl tracking-tight text-foreground transition-opacity hover:opacity-90 inline-flex items-baseline"
+          <button
+            onClick={() => scrollTo("hero")}
+            className="text-2xl sm:text-3xl tracking-tight text-foreground transition-opacity hover:opacity-90 inline-flex items-baseline cursor-pointer"
             style={{ fontFamily: "'Instrument Serif', serif" }}
           >
             <span>{BRAND_NAME}</span>
             <sup className="text-xs ml-0.5 font-sans">®</sup>
-          </a>
+          </button>
 
-          {/* Navigation Links */}
-          <div className="hidden md:flex items-center space-x-8">
-            <a
-              href="#"
-              className="text-sm font-medium text-foreground transition-colors"
-            >
-              Home
-            </a>
-            <a
-              href="#services"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Services
-            </a>
-            <a
-              href="#work"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Work
-            </a>
-            <a
-              href="#about"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
-              About
-            </a>
-            <a
-              href="#contact"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Contact
-            </a>
+          {/* Desktop Navigation Links */}
+          <div className="hidden lg:flex items-center space-x-7">
+            {[
+              { label: "Home", id: "hero" },
+              { label: "About", id: "about" },
+              { label: "Services", id: "services" },
+              { label: "Projects", id: "work" },
+              { label: "Why Us", id: "why-us" },
+              { label: "Reviews", id: "reviews" },
+              { label: "Blog", id: "blog" },
+              { label: "Contact", id: "contact" },
+            ].map((link) => (
+              <button
+                key={link.id}
+                onClick={() => scrollTo(link.id)}
+                className="text-xs uppercase tracking-wider font-mono text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+              >
+                {link.label}
+              </button>
+            ))}
           </div>
 
-          {/* Navbar CTA Button */}
-          <div>
-            <a
-              href="#contact"
-              className="liquid-glass inline-flex items-center justify-center rounded-full px-6 py-2.5 text-sm text-foreground transition-transform duration-300 hover:scale-[1.03] cursor-pointer"
+          {/* Action Button & Mobile Toggle */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => scrollTo("contact")}
+              className="liquid-glass inline-flex items-center justify-center rounded-full px-5 py-2 text-xs sm:text-sm text-foreground transition-transform duration-300 hover:scale-[1.03] cursor-pointer"
             >
               Start a Project
-            </a>
+            </button>
+
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="lg:hidden p-2 rounded-xl liquid-glass text-foreground"
+              aria-label="Toggle Navigation"
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
           </div>
         </nav>
+
+        {/* Mobile Navigation Drawer */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden px-6 py-6 mx-4 mt-2 rounded-2xl glass-card border border-white/10 flex flex-col space-y-4 backdrop-blur-xl animate-fade-rise">
+            {[
+              { label: "Home", id: "hero" },
+              { label: "About Us", id: "about" },
+              { label: "Our Services", id: "services" },
+              { label: "Projects Done", id: "work" },
+              { label: "Why Us", id: "why-us" },
+              { label: "Reviews", id: "reviews" },
+              { label: "Blog & Insights", id: "blog" },
+              { label: "Contact Studio", id: "contact" },
+            ].map((link) => (
+              <button
+                key={link.id}
+                onClick={() => scrollTo(link.id)}
+                className="text-left text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-2 border-b border-white/5"
+              >
+                {link.label}
+              </button>
+            ))}
+          </div>
+        )}
       </header>
 
-      {/* Hero Section */}
-      <main className="relative z-10 flex-1 flex flex-col justify-center items-center text-center px-6 pt-32 pb-40 py-[90px] max-w-7xl mx-auto w-full">
-        {/* Main Heading */}
-        <h1
-          className="text-5xl sm:text-7xl md:text-8xl leading-[0.95] tracking-[-2.46px] max-w-7xl font-normal text-foreground animate-fade-rise"
-          style={{ fontFamily: "'Instrument Serif', serif" }}
+      {/* Hero Section Container (Pinned during scroll transition) */}
+      <div ref={heroWrapperRef} className="relative h-screen w-full overflow-hidden flex flex-col justify-between">
+        {/* Fullscreen Looping Video Container */}
+        <div
+          ref={videoContainerRef}
+          className="absolute inset-0 w-full h-full overflow-hidden z-0 pointer-events-none transform-gpu origin-center"
         >
-          We <em className="not-italic text-muted-foreground">build websites</em> that{" "}
-          <em className="not-italic text-muted-foreground">hold attention.</em>
-        </h1>
-
-        {/* Subtext */}
-        <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mt-8 leading-relaxed animate-fade-rise-delay">
-          {BRAND_NAME} is a small web development studio. We design and build fast,
-          clean websites and web apps for businesses that want their online
-          presence to actually work.
-        </p>
-
-        {/* Hero CTA Button */}
-        <div>
-          <a
-            href="#contact"
-            className="liquid-glass inline-flex items-center justify-center rounded-full px-14 py-5 text-base text-foreground mt-12 transition-transform duration-300 hover:scale-[1.03] cursor-pointer animate-fade-rise-delay-2 font-medium"
-          >
-            Start a Project
-          </a>
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover"
+            src={VIDEO_SRC}
+          />
         </div>
-      </main>
+
+        {/* Centered Hero Content */}
+        <div
+          ref={heroContentRef}
+          className="relative z-10 flex-1 flex flex-col justify-center items-center text-center px-6 pt-32 pb-16 max-w-7xl mx-auto w-full"
+        >
+          <h1
+            className="text-5xl sm:text-7xl md:text-8xl leading-[0.95] tracking-[-2.46px] max-w-7xl font-normal text-foreground animate-fade-rise"
+            style={{ fontFamily: "'Instrument Serif', serif" }}
+          >
+            We <em className="not-italic text-muted-foreground">build websites</em> that{" "}
+            <em className="not-italic text-muted-foreground">hold attention.</em>
+          </h1>
+
+          <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mt-8 leading-relaxed animate-fade-rise-delay">
+            {BRAND_NAME} is a small web development studio. We design and build fast,
+            clean websites and web apps for businesses that want their online
+            presence to actually work.
+          </p>
+
+          <div className="mt-12">
+            <button
+              onClick={() => scrollTo("contact")}
+              className="liquid-glass inline-flex items-center justify-center rounded-full px-14 py-5 text-base text-foreground transition-transform duration-300 hover:scale-[1.03] cursor-pointer animate-fade-rise-delay-2 font-medium"
+            >
+              Start a Project
+            </button>
+          </div>
+        </div>
+
+        {/* Floating Scroll Indicator to Next Section */}
+        <div className="relative z-10 pb-8 flex flex-col items-center justify-center">
+          <button
+            onClick={() => scrollTo("about")}
+            className="group flex flex-col items-center gap-1.5 text-xs font-mono text-muted-foreground hover:text-white transition-colors cursor-pointer"
+          >
+            <span className="tracking-widest uppercase text-[10px] text-white/50 group-hover:text-white transition-colors">
+              Scroll to explore
+            </span>
+            <div className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center group-hover:scale-110 transition-transform">
+              <ChevronDown className="w-4 h-4 animate-pulse-subtle" />
+            </div>
+          </button>
+        </div>
+      </div>
+
+      {/* Content Sections with Smooth Scroll Reveals */}
+      <div className="relative z-20 space-y-24 sm:space-y-32">
+        <div className="reveal-on-scroll">
+          <AboutSection />
+        </div>
+
+        <div className="reveal-on-scroll">
+          <ServicesSection />
+        </div>
+
+        <div className="reveal-on-scroll">
+          <ProjectsSection />
+        </div>
+
+        <div className="reveal-on-scroll">
+          <WhyUsSection />
+        </div>
+
+        <div className="reveal-on-scroll">
+          <ReviewsSection />
+        </div>
+
+        <div className="reveal-on-scroll">
+          <BlogSection />
+        </div>
+
+        <div className="reveal-on-scroll">
+          <ContactSection />
+        </div>
+      </div>
+
+      {/* Global Footer */}
+      <Footer onScrollToTop={() => scrollTo("hero")} onNavigate={scrollTo} />
     </div>
   )
 }
