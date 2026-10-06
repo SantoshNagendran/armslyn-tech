@@ -1,11 +1,16 @@
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 import {
   motion,
   useScroll,
   useTransform,
+  useMotionValue,
   useReducedMotion,
   type MotionValue,
 } from "framer-motion"
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+
+gsap.registerPlugin(ScrollTrigger)
 
 /**
  * Stage range configuration (0 to 1 scroll progress windows)
@@ -32,28 +37,63 @@ function useStage(progress: MotionValue<number>, from: number, to: number): Moti
 
 export default function ProcessScroll() {
   const containerRef = useRef<HTMLElement>(null)
+  const stickyRef = useRef<HTMLDivElement>(null)
   const shouldReduceMotion = useReducedMotion()
+
+  const motionProgress = useMotionValue(0)
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
   })
 
+  // Sync with native useScroll fallback
+  useEffect(() => {
+    return scrollYProgress.on("change", (latest) => {
+      motionProgress.set(latest)
+    })
+  }, [scrollYProgress, motionProgress])
+
+  // Hardware-locking pin with Lenis smooth-scroll compatibility
+  useEffect(() => {
+    if (shouldReduceMotion) return
+
+    const container = containerRef.current
+    const stickyBox = stickyRef.current
+    if (!container || !stickyBox) return
+
+    const trigger = ScrollTrigger.create({
+      trigger: container,
+      start: "top top",
+      end: "bottom bottom",
+      pin: stickyBox,
+      pinSpacing: false,
+      anticipatePin: 1,
+      onUpdate: (self) => {
+        motionProgress.set(self.progress)
+      },
+    })
+
+    return () => {
+      trigger.kill()
+    }
+  }, [shouldReduceMotion, motionProgress])
+
   // Local stage progress values (0 -> 1 for each respective window)
-  const ideaProgress = useStage(scrollYProgress, STAGE_RANGES.IDEA.from, STAGE_RANGES.IDEA.to)
+  const ideaProgress = useStage(motionProgress, STAGE_RANGES.IDEA.from, STAGE_RANGES.IDEA.to)
   const blueprintProgress = useStage(
-    scrollYProgress,
+    motionProgress,
     STAGE_RANGES.BLUEPRINT.from,
     STAGE_RANGES.BLUEPRINT.to
   )
   const plainProgress = useStage(
-    scrollYProgress,
+    motionProgress,
     STAGE_RANGES.PLAIN_PAGE.from,
     STAGE_RANGES.PLAIN_PAGE.to
   )
-  const builtProgress = useStage(scrollYProgress, STAGE_RANGES.BUILT.from, STAGE_RANGES.BUILT.to)
+  const builtProgress = useStage(motionProgress, STAGE_RANGES.BUILT.from, STAGE_RANGES.BUILT.to)
   const shippedProgress = useStage(
-    scrollYProgress,
+    motionProgress,
     STAGE_RANGES.SHIPPED.from,
     STAGE_RANGES.SHIPPED.to
   )
@@ -122,7 +162,10 @@ export default function ProcessScroll() {
       className="relative h-[400vh] bg-background"
     >
       {/* Sticky viewport frame pinned across the 400vh scroll progress */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-background">
+      <div
+        ref={stickyRef}
+        className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-background"
+      >
         {/* STAGE 1: IDEA */}
         <motion.div
           style={{ opacity: ideaOpacity, scale: ideaScale }}
