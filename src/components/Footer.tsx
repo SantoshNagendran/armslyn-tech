@@ -13,7 +13,6 @@ export function Footer({ onScrollToTop, onNavigate }: FooterProps) {
     { label: "Projects", id: "work" },
     { label: "Why Us", id: "why-us" },
     { label: "Reviews", id: "reviews" },
-    { label: "Blog", id: "blog" },
     { label: "Contact", id: "contact" },
   ]
 

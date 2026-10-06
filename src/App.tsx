@@ -9,7 +9,6 @@ import { ServicesSection } from "./components/ServicesSection"
 import { ProjectsSection } from "./components/ProjectsSection"
 import { WhyUsSection } from "./components/WhyUsSection"
 import { ReviewsSection } from "./components/ReviewsSection"
-import { BlogSection } from "./components/BlogSection"
 import { ContactSection } from "./components/ContactSection"
 import { Footer } from "./components/Footer"
 
@@ -25,6 +24,31 @@ export default function App() {
   const heroWrapperRef = useRef<HTMLDivElement>(null)
   const heroContentRef = useRef<HTMLDivElement>(null)
   const videoContainerRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  // Ensure video autoplays immediately on mount and handles browser autoplay restrictions
+  useEffect(() => {
+    const vid = videoRef.current
+    if (vid) {
+      vid.defaultMuted = true
+      vid.muted = true
+      const playPromise = vid.play()
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // If browser initially paused autoplay, resume on earliest user interaction
+          const handleInteraction = () => {
+            vid.play().catch(() => {})
+            window.removeEventListener("click", handleInteraction)
+            window.removeEventListener("touchstart", handleInteraction)
+            window.removeEventListener("scroll", handleInteraction)
+          }
+          window.addEventListener("click", handleInteraction, { once: true, passive: true })
+          window.addEventListener("touchstart", handleInteraction, { once: true, passive: true })
+          window.addEventListener("scroll", handleInteraction, { once: true, passive: true })
+        })
+      }
+    }
+  }, [])
 
   // Initialize Lenis Smooth Scroll and GSAP ScrollTrigger
   useEffect(() => {
@@ -69,7 +93,6 @@ export default function App() {
               scale: 0.91,
               borderRadius: "32px",
               opacity: 0.35,
-              filter: "blur(2px)",
               ease: "power2.inOut",
             },
             0
@@ -159,7 +182,6 @@ export default function App() {
               { label: "Projects", id: "work" },
               { label: "Why Us", id: "why-us" },
               { label: "Reviews", id: "reviews" },
-              { label: "Blog", id: "blog" },
               { label: "Contact", id: "contact" },
             ].map((link) => (
               <button
@@ -201,7 +223,6 @@ export default function App() {
               { label: "Projects Done", id: "work" },
               { label: "Why Us", id: "why-us" },
               { label: "Reviews", id: "reviews" },
-              { label: "Blog & Insights", id: "blog" },
               { label: "Contact Studio", id: "contact" },
             ].map((link) => (
               <button
@@ -221,13 +242,16 @@ export default function App() {
         {/* Fullscreen Looping Video Container */}
         <div
           ref={videoContainerRef}
-          className="absolute inset-0 w-full h-full overflow-hidden z-0 pointer-events-none transform-gpu origin-center"
+          className="absolute inset-0 w-full h-full overflow-hidden z-0 pointer-events-none origin-center"
+          style={{ opacity: 1, willChange: "transform, opacity, border-radius" }}
         >
           <video
+            ref={videoRef}
             autoPlay
             loop
             muted
             playsInline
+            preload="auto"
             className="w-full h-full object-cover"
             src={VIDEO_SRC}
           />
@@ -298,10 +322,6 @@ export default function App() {
 
         <div className="reveal-on-scroll">
           <ReviewsSection />
-        </div>
-
-        <div className="reveal-on-scroll">
-          <BlogSection />
         </div>
 
         <div className="reveal-on-scroll">
