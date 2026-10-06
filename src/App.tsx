@@ -10,6 +10,7 @@ import { ProjectsSection } from "./components/ProjectsSection"
 import { WhyUsSection } from "./components/WhyUsSection"
 import { ReviewsSection } from "./components/ReviewsSection"
 import { ContactSection } from "./components/ContactSection"
+import ProcessScroll from "./components/ProcessScroll"
 import { Footer } from "./components/Footer"
 
 gsap.registerPlugin(ScrollTrigger)
@@ -177,6 +178,7 @@ export default function App() {
           <div className="hidden lg:flex items-center space-x-7">
             {[
               { label: "Home", id: "hero" },
+              { label: "Process", id: "process" },
               { label: "About", id: "about" },
               { label: "Services", id: "services" },
               { label: "Projects", id: "work" },
@@ -218,6 +220,7 @@ export default function App() {
           <div className="lg:hidden px-6 py-6 mx-4 mt-2 rounded-2xl glass-card border border-white/10 flex flex-col space-y-4 backdrop-blur-xl animate-fade-rise">
             {[
               { label: "Home", id: "hero" },
+              { label: "Our Process", id: "process" },
               { label: "About Us", id: "about" },
               { label: "Our Services", id: "services" },
               { label: "Projects Done", id: "work" },
@@ -289,7 +292,7 @@ export default function App() {
         {/* Floating Scroll Indicator to Next Section */}
         <div className="relative z-10 pb-8 flex flex-col items-center justify-center">
           <button
-            onClick={() => scrollTo("about")}
+            onClick={() => scrollTo("process")}
             className="group flex flex-col items-center gap-1.5 text-xs font-mono text-muted-foreground hover:text-white transition-colors cursor-pointer"
           >
             <span className="tracking-widest uppercase text-[10px] text-white/50 group-hover:text-white transition-colors">
@@ -301,6 +304,9 @@ export default function App() {
           </button>
         </div>
       </div>
+
+      {/* Scroll-Driven Storytelling Process Section */}
+      <ProcessScroll />
 
       {/* Content Sections with Smooth Scroll Reveals */}
       <div className="relative z-20 space-y-24 sm:space-y-32">

@@ -8,6 +8,7 @@ interface FooterProps {
 export function Footer({ onScrollToTop, onNavigate }: FooterProps) {
   const links = [
     { label: "Home", id: "hero" },
+    { label: "Process", id: "process" },
     { label: "About", id: "about" },
     { label: "Services", id: "services" },
     { label: "Projects", id: "work" },
