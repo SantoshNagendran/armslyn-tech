@@ -162,16 +162,31 @@ export default function App() {
     }
   }, [])
 
-  // Smooth scroll handler
+  // Clean and direct navigation handler without dizzying through-scroll animation
   const scrollTo = (target: string) => {
     setMobileMenuOpen(false)
-    const element = target === "hero" ? 0 : document.getElementById(target)
-    if (element !== null && lenisRef.current) {
-      lenisRef.current.scrollTo(element, {
-        duration: 1.4,
-        offset: -40,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      })
+    if (target === "hero") {
+      if (lenisRef.current) {
+        lenisRef.current.scrollTo(0, { immediate: true })
+      } else {
+        window.scrollTo({ top: 0, behavior: "auto" })
+      }
+      return
+    }
+
+    const element = document.getElementById(target)
+    if (element) {
+      if (lenisRef.current) {
+        // Immediate clean jump directly to target section with offset for header
+        lenisRef.current.scrollTo(element, {
+          immediate: true,
+          offset: -30,
+        })
+      } else {
+        element.scrollIntoView({ behavior: "auto" })
+      }
+      // Re-synchronize ScrollTrigger pins and positions cleanly
+      ScrollTrigger.refresh()
     }
   }
 
@@ -190,13 +205,13 @@ export default function App() {
           <button
             id="header-logo"
             onClick={() => scrollTo("hero")}
-            className={`text-2xl sm:text-3xl tracking-tight text-foreground transition-opacity duration-500 hover:text-primary inline-flex items-baseline cursor-pointer ${
+            className={`text-2xl sm:text-3xl font-bold tracking-tight text-[#0f233a] transition-opacity duration-500 hover:text-[#f46a06] inline-flex items-baseline cursor-pointer ${
               isLoading ? "opacity-0" : "opacity-100"
             }`}
             style={{ fontFamily: "'Instrument Serif', serif" }}
           >
             <span>{BRAND_NAME}</span>
-            <sup className="text-xs ml-0.5 font-sans">®</sup>
+            <sup className="text-xs ml-0.5 font-sans font-bold">®</sup>
           </button>
 
           {/* Desktop Navigation Links */}
@@ -214,7 +229,7 @@ export default function App() {
               <button
                 key={link.id}
                 onClick={() => scrollTo(link.id)}
-                className="text-xs uppercase tracking-wider font-mono text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                className="text-xs uppercase tracking-wider font-mono font-bold text-[#0f233a] hover:text-[#f46a06] transition-colors cursor-pointer"
               >
                 {link.label}
               </button>
@@ -225,14 +240,14 @@ export default function App() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => scrollTo("contact")}
-              className="liquid-glass inline-flex items-center justify-center rounded-full px-5 py-2 text-xs sm:text-sm text-foreground hover:border-primary/40 hover:text-primary transition-all duration-300 hover:scale-[1.03] cursor-pointer"
+              className="liquid-glass glass-glow-orange inline-flex items-center justify-center rounded-full px-5 py-2 text-xs sm:text-sm text-[#0f233a] hover:text-[#f46a06] transition-all duration-300 hover:scale-[1.03] cursor-pointer font-bold"
             >
               Start a Project
             </button>
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-xl liquid-glass text-foreground"
+              className="lg:hidden p-2 rounded-xl liquid-glass glass-glow-orange text-[#0f233a] hover:text-[#f46a06]"
               aria-label="Toggle Navigation"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -256,7 +271,7 @@ export default function App() {
               <button
                 key={link.id}
                 onClick={() => scrollTo(link.id)}
-                className="text-left text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-2 border-b border-foreground/10"
+                className="text-left text-sm font-bold text-[#0f233a] hover:text-[#f46a06] transition-colors py-2 border-b border-foreground/10"
               >
                 {link.label}
               </button>
@@ -307,7 +322,7 @@ export default function App() {
           <div className="mt-12">
             <button
               onClick={() => scrollTo("contact")}
-              className="liquid-glass inline-flex items-center justify-center rounded-full px-14 py-5 text-base text-foreground hover:text-primary transition-all duration-300 hover:scale-[1.03] cursor-pointer animate-fade-rise-delay-2 font-medium"
+              className="liquid-glass glass-glow-orange inline-flex items-center justify-center rounded-full px-14 py-5 text-base text-[#0f233a] hover:text-[#f46a06] transition-all duration-300 hover:scale-[1.03] cursor-pointer animate-fade-rise-delay-2 font-bold"
             >
               Start a Project
             </button>

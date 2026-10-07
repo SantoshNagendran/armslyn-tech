@@ -14,18 +14,14 @@ gsap.registerPlugin(ScrollTrigger)
 
 /**
  * Stage range configuration (0 to 1 scroll progress windows)
- * - IDEA: Initial question & inspiration
  * - BLUEPRINT: Wireframe sketch drawing layout lines
  * - PLAIN_PAGE: Bare HTML unstyled structure
- * - BUILT: Liquid glass styled presentation
- * - SHIPPED: Live pill badge & rocket launch, staying locked till the very end
+ * - BUILT: Liquid glass styled presentation with "Your site, finished."
  */
 export const STAGE_RANGES = {
-  IDEA: { from: 0.0, to: 0.18 },
-  BLUEPRINT: { from: 0.18, to: 0.4 },
-  PLAIN_PAGE: { from: 0.4, to: 0.6 },
-  BUILT: { from: 0.6, to: 0.8 },
-  SHIPPED: { from: 0.8, to: 1.0 },
+  BLUEPRINT: { from: 0.0, to: 0.35 },
+  PLAIN_PAGE: { from: 0.35, to: 0.65 },
+  BUILT: { from: 0.65, to: 1.0 },
 } as const
 
 /**
@@ -80,7 +76,6 @@ export default function ProcessScroll() {
   }, [shouldReduceMotion, motionProgress])
 
   // Local stage progress values (0 -> 1 for each respective window)
-  const ideaProgress = useStage(motionProgress, STAGE_RANGES.IDEA.from, STAGE_RANGES.IDEA.to)
   const blueprintProgress = useStage(
     motionProgress,
     STAGE_RANGES.BLUEPRINT.from,
@@ -92,42 +87,26 @@ export default function ProcessScroll() {
     STAGE_RANGES.PLAIN_PAGE.to
   )
   const builtProgress = useStage(motionProgress, STAGE_RANGES.BUILT.from, STAGE_RANGES.BUILT.to)
-  const shippedProgress = useStage(
-    motionProgress,
-    STAGE_RANGES.SHIPPED.from,
-    STAGE_RANGES.SHIPPED.to
-  )
 
-  // 1. IDEA STAGE ANIMATIONS
-  const ideaOpacity = useTransform(ideaProgress, [0, 0.25, 0.75, 1], [0, 1, 1, 0])
-  const ideaScale = useTransform(ideaProgress, [0, 1], [0.9, 1.05])
-
-  // 2. BLUEPRINT STAGE ANIMATIONS
+  // 1. BLUEPRINT STAGE ANIMATIONS
   const blueprintOpacity = useTransform(blueprintProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0])
   const blueprintFrameScaleX = useTransform(blueprintProgress, [0.08, 0.38], [0, 1])
   const blueprintHeaderScaleX = useTransform(blueprintProgress, [0.35, 0.58], [0, 1])
   const blueprintSidebarScaleY = useTransform(blueprintProgress, [0.55, 0.78], [0, 1])
   const blueprintContentOpacity = useTransform(blueprintProgress, [0.72, 0.92], [0, 1])
 
-  // 3. PLAIN PAGE STAGE ANIMATIONS
+  // 2. PLAIN PAGE STAGE ANIMATIONS
   const plainOpacity = useTransform(plainProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0])
 
-  // 4. BUILT STAGE ANIMATIONS
-  const builtStageOpacity = useTransform(builtProgress, [0, 0.12, 0.88, 1], [0, 1, 1, 0])
+  // 3. BUILT STAGE ANIMATIONS (Stays solid and clean till the section ends)
+  const builtStageOpacity = useTransform(builtProgress, [0, 0.15], [0, 1])
   const builtOverlayOpacity = useTransform(builtProgress, [0, 0.3], [0, 1])
   const builtCardY = useTransform(builtProgress, [0.05, 0.35], [-20, 0])
   const builtCardOpacity = useTransform(builtProgress, [0.05, 0.35], [0, 1])
-  const builtHeadingY = useTransform(builtProgress, [0.3, 0.55], [10, 0])
-  const builtHeadingOpacity = useTransform(builtProgress, [0.3, 0.55], [0, 1])
-  const builtBodyY = useTransform(builtProgress, [0.5, 0.75], [10, 0])
-  const builtBodyOpacity = useTransform(builtProgress, [0.5, 0.75], [0, 1])
-
-  // 5. SHIPPED STAGE ANIMATIONS
-  // Stays locked till the very end: rocket launches and disappears early, then badge holds firmly
-  const shippedStageOpacity = useTransform(shippedProgress, [0, 0.15], [0, 1])
-  const shippedBadgeScale = useTransform(shippedProgress, [0.05, 0.25, 0.45], [0.6, 1.05, 1])
-  const shippedRocketY = useTransform(shippedProgress, [0.2, 0.6], [0, -240])
-  const shippedRocketOpacity = useTransform(shippedProgress, [0.2, 0.5, 0.6], [1, 0.9, 0])
+  const builtHeadingY = useTransform(builtProgress, [0.25, 0.5], [10, 0])
+  const builtHeadingOpacity = useTransform(builtProgress, [0.25, 0.5], [0, 1])
+  const builtBodyY = useTransform(builtProgress, [0.45, 0.7], [10, 0])
+  const builtBodyOpacity = useTransform(builtProgress, [0.45, 0.7], [0, 1])
 
   // Accessibility: Fallback for users preferring reduced motion
   if (shouldReduceMotion) {
@@ -138,9 +117,6 @@ export default function ProcessScroll() {
         className="relative py-28 px-6 max-w-5xl mx-auto w-full text-center"
       >
         <div className="liquid-glass rounded-3xl p-10 max-w-xl mx-auto border border-foreground/15 flex flex-col items-center">
-          <div className="liquid-glass inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm text-foreground font-mono mb-6">
-            <span className="text-primary">●</span> Live · Shipped to client
-          </div>
           <h2
             className="text-4xl sm:text-5xl text-foreground font-normal mb-4"
             style={{ fontFamily: "'Instrument Serif', serif" }}
@@ -160,27 +136,14 @@ export default function ProcessScroll() {
       ref={containerRef}
       id="process"
       aria-label="How we build a website"
-      className="relative h-[450vh] bg-background"
+      className="relative h-[320vh] bg-background"
     >
       {/* Sticky viewport frame pinned across the scroll progress */}
       <div
         ref={stickyRef}
         className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-background"
       >
-        {/* STAGE 1: IDEA */}
-        <motion.div
-          style={{ opacity: ideaOpacity, scale: ideaScale }}
-          className="absolute inset-0 flex items-center justify-center px-6 text-center pointer-events-none"
-        >
-          <h2
-            className="text-4xl sm:text-6xl text-foreground font-normal tracking-tight"
-            style={{ fontFamily: "'Instrument Serif', serif" }}
-          >
-            What if it just worked?
-          </h2>
-        </motion.div>
-
-        {/* STAGE 2: BLUEPRINT */}
+        {/* STAGE 1: BLUEPRINT */}
         <motion.div
           style={{ opacity: blueprintOpacity }}
           className="absolute inset-0 flex items-center justify-center px-6 pointer-events-none"
@@ -234,7 +197,7 @@ export default function ProcessScroll() {
           </motion.div>
         </motion.div>
 
-        {/* STAGE 3: PLAIN PAGE */}
+        {/* STAGE 2: PLAIN PAGE */}
         <motion.div
           style={{ opacity: plainOpacity }}
           className="absolute inset-0 flex items-center justify-center px-6 pointer-events-none"
@@ -266,7 +229,7 @@ export default function ProcessScroll() {
           </div>
         </motion.div>
 
-        {/* STAGE 4: BUILT */}
+        {/* STAGE 3: BUILT */}
         <motion.div
           style={{ opacity: builtStageOpacity }}
           className="absolute inset-0 flex items-center justify-center px-6 pointer-events-none"
@@ -307,32 +270,6 @@ export default function ProcessScroll() {
             >
               Fast, clean, and built to last.
             </motion.p>
-          </motion.div>
-        </motion.div>
-
-        {/* STAGE 5: SHIPPED */}
-        <motion.div
-          style={{ opacity: shippedStageOpacity }}
-          className="absolute inset-0 flex flex-col items-center justify-center px-6 pointer-events-none"
-        >
-          {/* Liquid Glass Pill Badge */}
-          <motion.div
-            style={{ scale: shippedBadgeScale }}
-            className="liquid-glass inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm sm:text-base text-foreground font-mono border border-foreground/15 shadow-lg mb-8"
-          >
-            <span className="text-primary">●</span>
-            <span>Live · Shipped to client</span>
-          </motion.div>
-
-          {/* Rocket emoji animating upward & fading out */}
-          <motion.div
-            style={{
-              y: shippedRocketY,
-              opacity: shippedRocketOpacity,
-            }}
-            className="text-5xl sm:text-6xl select-none"
-          >
-            🚀
           </motion.div>
         </motion.div>
       </div>

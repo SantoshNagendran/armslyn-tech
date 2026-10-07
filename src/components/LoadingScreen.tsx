@@ -20,53 +20,53 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   useEffect(() => {
     const tl = gsap.timeline();
 
-    /* ── Phase 1: Reveal "Armslyn" ─────────────────────────── */
+    /* ── Phase 1: Reveal "Armslyn" snappy ─────────────────── */
     tl.fromTo(
       armslynRef.current,
-      { opacity: 0, filter: "blur(20px)", y: 12 },
-      { opacity: 1, filter: "blur(0px)", y: 0, duration: 0.9, ease: "power3.out" }
+      { opacity: 0, filter: "blur(14px)", y: 10 },
+      { opacity: 1, filter: "blur(0px)", y: 0, duration: 0.45, ease: "power2.out" }
     );
 
     // Glow breathes in
     tl.fromTo(
       glowRef.current,
-      { opacity: 0, scale: 0.7 },
-      { opacity: 1, scale: 1, duration: 1.2, ease: "power2.out" },
-      0.2
+      { opacity: 0, scale: 0.8 },
+      { opacity: 1, scale: 1, duration: 0.6, ease: "power2.out" },
+      0.1
     );
 
     // Subtext fades in
     tl.fromTo(
       subtextRef.current,
-      { opacity: 0, y: 8 },
-      { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
-      0.6
+      { opacity: 0, y: 6 },
+      { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" },
+      0.25
     );
 
     /* ── " Tech®" blurs in right after "Armslyn" appears ──── */
     tl.fromTo(
       techRef.current,
-      { opacity: 0, filter: "blur(16px)", x: -20 },
-      { opacity: 1, filter: "blur(0px)", x: 0, duration: 0.55, ease: "power2.out" },
-      0.7 // starts while "Armslyn" is still revealing
+      { opacity: 0, filter: "blur(12px)", x: -14 },
+      { opacity: 1, filter: "blur(0px)", x: 0, duration: 0.35, ease: "power2.out" },
+      0.35
     );
 
     tl.fromTo(
       supRef.current,
-      { opacity: 0, y: 6 },
-      { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" },
-      1.0
+      { opacity: 0, y: 4 },
+      { opacity: 1, y: 0, duration: 0.2, ease: "power2.out" },
+      0.55
     );
 
-    // Hold the full logo for ~2 seconds
-    tl.to({}, { duration: 2 });
+    // Hold the full logo briefly (0.6s hold)
+    tl.to({}, { duration: 0.6 });
 
     /* ── Phase 3: Fly logo to header ──────────────────────── */
 
-    // First, fade out subtext and glow
+    // Fade out subtext and glow quickly
     tl.to([subtextRef.current, glowRef.current], {
       opacity: 0,
-      duration: 0.35,
+      duration: 0.2,
       ease: "power2.in",
     });
 
@@ -79,7 +79,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
         // Fallback: simple fade out
         gsap.to(containerRef.current, {
           opacity: 0,
-          duration: 0.5,
+          duration: 0.35,
           onComplete,
         });
         return;
@@ -101,26 +101,26 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
         headerRect.height / 2 -
         (logoRect.top + logoRect.height / 2);
 
-      // Fly the logo
+      // Fly the logo briskly (~0.5s)
       gsap.to(logoWrapper, {
         x: dx,
         y: dy,
         scale,
-        duration: 0.85,
+        duration: 0.52,
         ease: "power3.inOut",
         onComplete: () => {
           // Fade out the background to reveal the site
           gsap.to(bgRef.current, {
             opacity: 0,
-            duration: 0.45,
+            duration: 0.3,
             ease: "power2.out",
           });
 
           // Fade the animated logo out slightly after so real header logo takes over
           gsap.to(logoWrapper, {
             opacity: 0,
-            duration: 0.3,
-            delay: 0.1,
+            duration: 0.2,
+            delay: 0.05,
             ease: "power2.out",
             onComplete: () => {
               // Remove pointer events immediately
@@ -167,19 +167,19 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
         >
           <span
             ref={armslynRef}
-            className="text-5xl sm:text-7xl md:text-8xl text-[#567C8D] tracking-tight opacity-0"
+            className="text-5xl sm:text-7xl md:text-8xl text-[#0f233a] tracking-tight opacity-0"
           >
             Armslyn
           </span>
           <span
             ref={techRef}
-            className="text-5xl sm:text-7xl md:text-8xl text-[#567C8D] tracking-tight opacity-0"
+            className="text-5xl sm:text-7xl md:text-8xl text-[#0f233a] tracking-tight opacity-0"
           >
             {" "}Tech
           </span>
           <sup
             ref={supRef}
-            className="text-xs ml-0.5 font-sans text-[#567C8D] opacity-0"
+            className="text-xs ml-0.5 font-sans text-[#0f233a] opacity-0"
           >
             ®
           </sup>
@@ -187,8 +187,8 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
 
         {/* Subtext */}
         <div ref={subtextRef} className="mt-8 opacity-0">
-          <p className="text-xs tracking-[0.3em] uppercase text-[#567C8D]/40 font-mono">
-            Building experiences
+          <p className="text-xs tracking-[0.3em] uppercase text-[#0f233a]/60 font-mono font-semibold">
+            Engineering Perfection
           </p>
         </div>
       </div>

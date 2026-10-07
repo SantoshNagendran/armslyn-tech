@@ -152,7 +152,7 @@ export function ContactSection() {
 
               <button
                 type="submit"
-                className="liquid-glass w-full rounded-full py-4 text-sm font-medium text-foreground hover:text-primary hover:border-primary/40 transition-all duration-300 hover:scale-[1.02] cursor-pointer inline-flex items-center justify-center gap-2"
+                className="liquid-glass glass-glow-orange w-full rounded-full py-4 text-sm font-bold text-[#0f233a] hover:text-[#f46a06] transition-all duration-300 hover:scale-[1.02] cursor-pointer inline-flex items-center justify-center gap-2"
               >
                 Send Inquiry <Send className="w-4 h-4 text-primary" />
               </button>

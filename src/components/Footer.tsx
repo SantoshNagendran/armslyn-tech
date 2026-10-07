@@ -48,7 +48,7 @@ export function Footer({ onScrollToTop, onNavigate }: FooterProps) {
         <div>
           <button
             onClick={onScrollToTop}
-            className="liquid-glass rounded-full px-5 py-2.5 text-xs text-foreground inline-flex items-center gap-2 hover:text-primary hover:border-primary/40 hover:scale-105 transition-all cursor-pointer"
+            className="liquid-glass glass-glow-orange rounded-full px-5 py-2.5 text-xs font-bold text-[#0f233a] inline-flex items-center gap-2 hover:text-[#f46a06] hover:scale-105 transition-all cursor-pointer"
           >
             <span>Back to top</span>
             <ArrowUp className="w-3.5 h-3.5 text-primary" />
