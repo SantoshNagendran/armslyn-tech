@@ -17,7 +17,7 @@ import { LoadingScreen } from "./components/LoadingScreen"
 gsap.registerPlugin(ScrollTrigger)
 
 const BRAND_NAME = "Armslyn Tech"
-const VIDEO_SRC = `${import.meta.env.BASE_URL}hero.mp4`
+const VIDEO_SRC = `${import.meta.env.BASE_URL}hero1.mp4`
 
 
 export default function App() {
@@ -239,14 +239,14 @@ export default function App() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => scrollTo("contact")}
-              className="liquid-glass glass-glow-orange inline-flex items-center justify-center rounded-full px-5 py-2 text-xs sm:text-sm text-[#0f233a] hover:text-[#f46a06] transition-all duration-300 hover:scale-[1.03] cursor-pointer font-bold"
+              className="btn-glass inline-flex items-center justify-center rounded-full px-5 py-2 text-xs sm:text-sm font-bold cursor-pointer"
             >
               Start a Project
             </button>
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-xl liquid-glass glass-glow-orange text-[#0f233a] hover:text-[#f46a06]"
+              className="lg:hidden p-2 rounded-xl liquid-glass text-[#0f233a] hover:text-[#f46a06]"
               aria-label="Toggle Navigation"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -321,7 +321,7 @@ export default function App() {
           <div className="mt-12">
             <button
               onClick={() => scrollTo("contact")}
-              className="liquid-glass glass-glow-orange inline-flex items-center justify-center rounded-full px-14 py-5 text-base text-[#0f233a] hover:text-[#f46a06] transition-all duration-300 hover:scale-[1.03] cursor-pointer animate-fade-rise-delay-2 font-bold"
+              className="btn-glass inline-flex items-center justify-center rounded-full px-14 py-5 text-base font-bold cursor-pointer animate-fade-rise-delay-2"
             >
               Start a Project
             </button>
