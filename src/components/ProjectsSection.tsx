@@ -9,15 +9,15 @@ export function ProjectsSection() {
       year: "2026",
       summary: "Cinematic full-bleed editorial experience with procedural camera transitions and custom audio reactive elements.",
       metrics: "0.38s Load Time • 140% Retention Surge",
-      accent: "from-sky-500/20 to-blue-600/10",
+      accent: "from-primary/20 to-orange-600/10",
     },
     {
       title: "Aura Fintech Dashboard",
       category: "SaaS Application & Analytics UI",
       year: "2026",
-      summary: "Real-time algorithmic trading interface with dark-mode glassmorphic controls and millisecond telemetry.",
+      summary: "Real-time algorithmic trading interface with clean glassmorphic controls and millisecond telemetry.",
       metrics: "Enterprise Security • 60fps Chart Rendering",
-      accent: "from-indigo-500/20 to-violet-600/10",
+      accent: "from-sky-600/20 to-teal-600/10",
     },
     {
       title: "Chronicle Editorial Journal",
@@ -25,7 +25,7 @@ export function ProjectsSection() {
       year: "2025",
       summary: "Award-winning typography and narrative layout with fluid cursor interactions and instant static edge delivery.",
       metrics: "100/100 Lighthouse • Global Audience",
-      accent: "from-amber-500/10 to-orange-600/10",
+      accent: "from-amber-600/20 to-primary/10",
     },
   ]
 
@@ -42,7 +42,7 @@ export function ProjectsSection() {
         {projects.map((project, idx) => (
           <div
             key={idx}
-            className="glass-card rounded-3xl p-8 sm:p-12 transition-all duration-300 hover:border-white/20 group relative overflow-hidden"
+            className="glass-card rounded-3xl p-8 sm:p-12 transition-all duration-300 hover:border-primary/40 group relative overflow-hidden"
           >
             <div className={`absolute -right-20 -top-20 w-80 h-80 rounded-full bg-gradient-to-br ${project.accent} blur-3xl pointer-events-none group-hover:scale-125 transition-transform duration-700 opacity-60`} />
 
@@ -55,7 +55,7 @@ export function ProjectsSection() {
                 </div>
 
                 <h3
-                  className="text-3xl sm:text-4xl text-foreground font-normal mb-4 group-hover:text-white transition-colors"
+                  className="text-3xl sm:text-4xl text-foreground font-normal mb-4 group-hover:text-primary transition-colors"
                   style={{ fontFamily: "'Instrument Serif', serif" }}
                 >
                   {project.title}
@@ -65,14 +65,14 @@ export function ProjectsSection() {
                   {project.summary}
                 </p>
 
-                <div className="text-xs font-mono text-white/60">
+                <div className="text-xs font-mono text-primary font-medium">
                   {project.metrics}
                 </div>
               </div>
 
               <div className="self-start lg:self-center">
-                <div className="liquid-glass w-12 h-12 rounded-full flex items-center justify-center text-foreground group-hover:scale-110 transition-transform duration-300">
-                  <ArrowUpRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <div className="liquid-glass w-12 h-12 rounded-full flex items-center justify-center text-foreground group-hover:scale-110 group-hover:border-primary/40 transition-transform duration-300">
+                  <ArrowUpRight className="w-5 h-5 text-primary transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </div>
               </div>
             </div>

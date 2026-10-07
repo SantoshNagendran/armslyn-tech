@@ -40,11 +40,11 @@ export function WhyUsSection() {
           return (
             <div
               key={idx}
-              className="glass-card rounded-2xl p-7 transition-all duration-300 hover:border-white/20 hover:-translate-y-1 relative group flex flex-col justify-between"
+              className="glass-card rounded-2xl p-7 transition-all duration-300 hover:border-primary/40 hover:-translate-y-1 relative group flex flex-col justify-between"
             >
               <div>
-                <div className="w-10 h-10 rounded-xl liquid-glass flex items-center justify-center text-foreground mb-6">
-                  <Icon className="w-5 h-5 text-white" />
+                <div className="w-10 h-10 rounded-xl liquid-glass flex items-center justify-center mb-6">
+                  <Icon className="w-5 h-5 text-primary" />
                 </div>
 
                 <h3
@@ -59,7 +59,7 @@ export function WhyUsSection() {
                 </p>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-white/5 text-[11px] font-mono text-muted-foreground/60">
+              <div className="mt-6 pt-4 border-t border-foreground/10 text-[11px] font-mono text-muted-foreground">
                 Pillar 0{idx + 1}
               </div>
             </div>

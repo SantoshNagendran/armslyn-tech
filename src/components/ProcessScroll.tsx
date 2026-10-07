@@ -137,9 +137,9 @@ export default function ProcessScroll() {
         aria-label="How we build a website"
         className="relative py-28 px-6 max-w-5xl mx-auto w-full text-center"
       >
-        <div className="liquid-glass rounded-3xl p-10 max-w-xl mx-auto border border-white/10 flex flex-col items-center">
+        <div className="liquid-glass rounded-3xl p-10 max-w-xl mx-auto border border-foreground/15 flex flex-col items-center">
           <div className="liquid-glass inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm text-foreground font-mono mb-6">
-            <span className="text-emerald-400">●</span> Live · Shipped to client
+            <span className="text-primary">●</span> Live · Shipped to client
           </div>
           <h2
             className="text-4xl sm:text-5xl text-foreground font-normal mb-4"
@@ -187,10 +187,10 @@ export default function ProcessScroll() {
         >
           {/* Blueprint Faint Grid Background */}
           <div
-            className="absolute inset-0 opacity-40 pointer-events-none"
+            className="absolute inset-0 opacity-25 pointer-events-none"
             style={{
               backgroundImage:
-                "linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px)",
+                "linear-gradient(to right, hsl(199 24% 45% / 0.25) 1px, transparent 1px), linear-gradient(to bottom, hsl(199 24% 45% / 0.25) 1px, transparent 1px)",
               backgroundSize: "48px 48px",
             }}
           />
@@ -201,7 +201,7 @@ export default function ProcessScroll() {
               scaleX: blueprintFrameScaleX,
               originX: 0,
             }}
-            className="relative w-[90%] md:w-[70%] h-[60%] border border-foreground/40 rounded-lg p-4 sm:p-6 flex flex-col gap-4 bg-background/40 backdrop-blur-[2px]"
+            className="relative w-[90%] md:w-[70%] h-[60%] border border-foreground/30 rounded-lg p-4 sm:p-6 flex flex-col gap-4 bg-background/60 backdrop-blur-[2px]"
           >
             {/* Header wireframe bar across the top */}
             <motion.div
@@ -239,8 +239,8 @@ export default function ProcessScroll() {
           style={{ opacity: plainOpacity }}
           className="absolute inset-0 flex items-center justify-center px-6 pointer-events-none"
         >
-          {/* The same rectangle filled with bare HTML gray placeholder blocks */}
-          <div className="w-[90%] md:w-[70%] h-[60%] border border-foreground/30 rounded-lg p-6 flex flex-col md:flex-row gap-6 bg-background/50">
+          {/* The same rectangle filled with bare placeholder blocks */}
+          <div className="w-[90%] md:w-[70%] h-[60%] border border-foreground/30 rounded-lg p-6 flex flex-col md:flex-row gap-6 bg-background/60">
             {/* Left sidebar / details placeholder */}
             <div className="hidden md:flex flex-col gap-3 w-1/4">
               <div className="h-6 w-3/4 bg-foreground/20 rounded" />
@@ -283,7 +283,7 @@ export default function ProcessScroll() {
               y: builtCardY,
               opacity: builtCardOpacity,
             }}
-            className="liquid-glass relative w-[90%] md:w-[70%] h-[60%] rounded-2xl p-8 sm:p-12 flex flex-col justify-center items-center text-center border border-white/10 shadow-2xl"
+            className="liquid-glass relative w-[90%] md:w-[70%] h-[60%] rounded-2xl p-8 sm:p-12 flex flex-col justify-center items-center text-center border border-foreground/15 shadow-2xl"
           >
             {/* Staggered Heading */}
             <motion.h2
@@ -318,9 +318,9 @@ export default function ProcessScroll() {
           {/* Liquid Glass Pill Badge */}
           <motion.div
             style={{ scale: shippedBadgeScale }}
-            className="liquid-glass inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm sm:text-base text-foreground font-mono border border-white/10 shadow-lg mb-8"
+            className="liquid-glass inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm sm:text-base text-foreground font-mono border border-foreground/15 shadow-lg mb-8"
           >
-            <span className="text-emerald-400">●</span>
+            <span className="text-primary">●</span>
             <span>Live · Shipped to client</span>
           </motion.div>
 

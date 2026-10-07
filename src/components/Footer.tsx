@@ -18,7 +18,7 @@ export function Footer({ onScrollToTop, onNavigate }: FooterProps) {
   ]
 
   return (
-    <footer className="relative border-t border-white/10 py-16 px-6 max-w-7xl mx-auto w-full z-10">
+    <footer className="relative border-t border-foreground/10 py-16 px-6 max-w-7xl mx-auto w-full z-10">
       <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-12">
         <div>
           <span
@@ -38,7 +38,7 @@ export function Footer({ onScrollToTop, onNavigate }: FooterProps) {
             <button
               key={link.id}
               onClick={() => onNavigate(link.id)}
-              className="hover:text-foreground transition-colors cursor-pointer"
+              className="hover:text-primary transition-colors cursor-pointer"
             >
               {link.label}
             </button>
@@ -48,15 +48,15 @@ export function Footer({ onScrollToTop, onNavigate }: FooterProps) {
         <div>
           <button
             onClick={onScrollToTop}
-            className="liquid-glass rounded-full px-5 py-2.5 text-xs text-foreground inline-flex items-center gap-2 hover:scale-105 transition-transform cursor-pointer"
+            className="liquid-glass rounded-full px-5 py-2.5 text-xs text-foreground inline-flex items-center gap-2 hover:text-primary hover:border-primary/40 hover:scale-105 transition-all cursor-pointer"
           >
             <span>Back to top</span>
-            <ArrowUp className="w-3.5 h-3.5" />
+            <ArrowUp className="w-3.5 h-3.5 text-primary" />
           </button>
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-white/5 text-[11px] text-muted-foreground/60 font-mono">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-foreground/10 text-[11px] text-muted-foreground font-mono">
         <div>© 2026 Armslyn Tech. All rights reserved.</div>
         <div>Crafted with React, Tailwind CSS, TypeScript & GSAP.</div>
       </div>

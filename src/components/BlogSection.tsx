@@ -19,7 +19,7 @@ export function BlogSection() {
     },
     {
       title: "Crafting Emotional Resonance on the Web",
-      excerpt: "Examining how cinematic typography, dark mode luminescence, and soundless motion evoke prestige for emerging luxury brands.",
+      excerpt: "Examining how cinematic typography, warm luminescence, and soundless motion evoke prestige for emerging luxury brands.",
       category: "Creative Direction",
       date: "Aug 2026",
       readTime: "5 min read",
@@ -39,18 +39,18 @@ export function BlogSection() {
         {articles.map((article, idx) => (
           <article
             key={idx}
-            className="glass-card rounded-3xl p-8 transition-all duration-300 hover:border-white/20 hover:-translate-y-1.5 flex flex-col justify-between group cursor-pointer"
+            className="glass-card rounded-3xl p-8 transition-all duration-300 hover:border-primary/40 hover:-translate-y-1.5 flex flex-col justify-between group cursor-pointer"
           >
             <div>
               <div className="flex items-center justify-between text-xs text-muted-foreground font-mono mb-4">
-                <span className="text-white/70">{article.category}</span>
+                <span className="text-primary font-medium">{article.category}</span>
                 <span className="flex items-center gap-1">
                   <Clock className="w-3 h-3" /> {article.readTime}
                 </span>
               </div>
 
               <h3
-                className="text-2xl text-foreground font-normal mb-3 group-hover:text-white transition-colors leading-tight"
+                className="text-2xl text-foreground font-normal mb-3 group-hover:text-primary transition-colors leading-tight"
                 style={{ fontFamily: "'Instrument Serif', serif" }}
               >
                 {article.title}
@@ -61,7 +61,7 @@ export function BlogSection() {
               </p>
             </div>
 
-            <div className="pt-4 border-t border-white/5 flex items-center justify-between text-xs text-muted-foreground group-hover:text-white transition-colors">
+            <div className="pt-4 border-t border-foreground/10 flex items-center justify-between text-xs text-muted-foreground group-hover:text-primary transition-colors">
               <span>{article.date}</span>
               <span className="inline-flex items-center gap-1 font-medium">
                 Read Article <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />

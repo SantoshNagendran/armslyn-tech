@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import Lenis from "lenis"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
@@ -12,6 +12,7 @@ import { ReviewsSection } from "./components/ReviewsSection"
 import { ContactSection } from "./components/ContactSection"
 import ProcessScroll from "./components/ProcessScroll"
 import { Footer } from "./components/Footer"
+import { LoadingScreen } from "./components/LoadingScreen"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -20,6 +21,7 @@ const VIDEO_SRC =
   "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4"
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const lenisRef = useRef<Lenis | null>(null)
   const heroWrapperRef = useRef<HTMLDivElement>(null)
@@ -27,8 +29,9 @@ export default function App() {
   const videoContainerRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
 
-  // Ensure video autoplays immediately on mount and handles browser autoplay restrictions
+  // Ensure video autoplays after loading screen finishes
   useEffect(() => {
+    if (isLoading) return
     const vid = videoRef.current
     if (vid) {
       vid.defaultMuted = true
@@ -49,6 +52,22 @@ export default function App() {
         })
       }
     }
+  }, [isLoading])
+
+  // Lock scroll during loading screen
+  useEffect(() => {
+    if (isLoading) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = ""
+    }
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [isLoading])
+
+  const handleLoadingComplete = useCallback(() => {
+    setIsLoading(false)
   }, [])
 
   // Initialize Lenis Smooth Scroll and GSAP ScrollTrigger
@@ -157,17 +176,23 @@ export default function App() {
   }
 
   return (
-    <div className="relative min-h-screen w-full bg-background text-foreground selection:bg-white/20 selection:text-white">
+    <div className="relative min-h-screen w-full bg-background text-foreground selection:bg-primary/20 selection:text-primary">
+      {/* Loading Screen */}
+      {isLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
+
       {/* Fixed Luxury Header Navigation */}
       <header className="fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300">
         <nav
-          className="flex row justify-between items-center px-6 sm:px-8 py-5 max-w-7xl mx-auto w-full backdrop-blur-md bg-background/30 rounded-b-2xl border-b border-white/5"
+          className="flex row justify-between items-center px-6 sm:px-8 py-5 max-w-7xl mx-auto w-full backdrop-blur-md bg-transparent rounded-b-2xl border-b border-foreground/10"
           aria-label="Main Navigation"
         >
           {/* Logo */}
           <button
+            id="header-logo"
             onClick={() => scrollTo("hero")}
-            className="text-2xl sm:text-3xl tracking-tight text-foreground transition-opacity hover:opacity-90 inline-flex items-baseline cursor-pointer"
+            className={`text-2xl sm:text-3xl tracking-tight text-foreground transition-opacity duration-500 hover:text-primary inline-flex items-baseline cursor-pointer ${
+              isLoading ? "opacity-0" : "opacity-100"
+            }`}
             style={{ fontFamily: "'Instrument Serif', serif" }}
           >
             <span>{BRAND_NAME}</span>
@@ -200,7 +225,7 @@ export default function App() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => scrollTo("contact")}
-              className="liquid-glass inline-flex items-center justify-center rounded-full px-5 py-2 text-xs sm:text-sm text-foreground transition-transform duration-300 hover:scale-[1.03] cursor-pointer"
+              className="liquid-glass inline-flex items-center justify-center rounded-full px-5 py-2 text-xs sm:text-sm text-foreground hover:border-primary/40 hover:text-primary transition-all duration-300 hover:scale-[1.03] cursor-pointer"
             >
               Start a Project
             </button>
@@ -217,7 +242,7 @@ export default function App() {
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden px-6 py-6 mx-4 mt-2 rounded-2xl glass-card border border-white/10 flex flex-col space-y-4 backdrop-blur-xl animate-fade-rise">
+          <div className="lg:hidden px-6 py-6 mx-4 mt-2 rounded-2xl glass-card border border-foreground/15 flex flex-col space-y-4 backdrop-blur-xl animate-fade-rise">
             {[
               { label: "Home", id: "hero" },
               { label: "Our Process", id: "process" },
@@ -231,7 +256,7 @@ export default function App() {
               <button
                 key={link.id}
                 onClick={() => scrollTo(link.id)}
-                className="text-left text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-2 border-b border-white/5"
+                className="text-left text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-2 border-b border-foreground/10"
               >
                 {link.label}
               </button>
@@ -270,7 +295,7 @@ export default function App() {
             style={{ fontFamily: "'Instrument Serif', serif" }}
           >
             We <em className="not-italic text-muted-foreground">build websites</em> that{" "}
-            <em className="not-italic text-muted-foreground">hold attention.</em>
+            <em className="not-italic text-primary">hold attention.</em>
           </h1>
 
           <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mt-8 leading-relaxed animate-fade-rise-delay">
@@ -282,7 +307,7 @@ export default function App() {
           <div className="mt-12">
             <button
               onClick={() => scrollTo("contact")}
-              className="liquid-glass inline-flex items-center justify-center rounded-full px-14 py-5 text-base text-foreground transition-transform duration-300 hover:scale-[1.03] cursor-pointer animate-fade-rise-delay-2 font-medium"
+              className="liquid-glass inline-flex items-center justify-center rounded-full px-14 py-5 text-base text-foreground hover:text-primary transition-all duration-300 hover:scale-[1.03] cursor-pointer animate-fade-rise-delay-2 font-medium"
             >
               Start a Project
             </button>
@@ -293,13 +318,13 @@ export default function App() {
         <div className="relative z-10 pb-8 flex flex-col items-center justify-center">
           <button
             onClick={() => scrollTo("process")}
-            className="group flex flex-col items-center gap-1.5 text-xs font-mono text-muted-foreground hover:text-white transition-colors cursor-pointer"
+            className="group flex flex-col items-center gap-1.5 text-xs font-mono text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
           >
-            <span className="tracking-widest uppercase text-[10px] text-white/50 group-hover:text-white transition-colors">
+            <span className="tracking-widest uppercase text-[10px] text-foreground/50 group-hover:text-foreground transition-colors">
               Scroll to explore
             </span>
             <div className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center group-hover:scale-110 transition-transform">
-              <ChevronDown className="w-4 h-4 animate-pulse-subtle" />
+              <ChevronDown className="w-4 h-4 animate-pulse-subtle text-foreground" />
             </div>
           </button>
         </div>

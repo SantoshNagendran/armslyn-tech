@@ -16,7 +16,7 @@ export function SectionHeader({
   return (
     <div className={`max-w-3xl mb-16 ${centered ? "mx-auto text-center" : ""}`}>
       <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full liquid-glass text-xs uppercase tracking-widest text-muted-foreground mb-4">
-        <span className="w-1.5 h-1.5 rounded-full bg-white/70 animate-pulse" />
+        <span className="w-1.5 h-1.5 rounded-full bg-[#f46a06] animate-pulse" />
         {badge}
       </div>
 
@@ -26,7 +26,7 @@ export function SectionHeader({
       >
         {title}{" "}
         {highlight && (
-          <em className="not-italic text-muted-foreground">{highlight}</em>
+          <em className="not-italic text-[#f46a06]">{highlight}</em>
         )}
       </h2>
 

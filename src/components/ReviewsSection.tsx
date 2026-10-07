@@ -39,12 +39,12 @@ export function ReviewsSection() {
         {reviews.map((rev, idx) => (
           <div
             key={idx}
-            className="glass-card rounded-3xl p-8 sm:p-10 transition-all duration-300 hover:border-white/20 hover:-translate-y-1 relative group flex flex-col justify-between"
+            className="glass-card rounded-3xl p-8 sm:p-10 transition-all duration-300 hover:border-primary/40 hover:-translate-y-1 relative group flex flex-col justify-between"
           >
             <div>
               <div className="flex items-center gap-1 mb-6">
                 {[...Array(rev.rating)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-amber-300 text-amber-300" />
+                  <Star key={i} className="w-4 h-4 fill-primary text-primary" />
                 ))}
               </div>
 
@@ -53,8 +53,8 @@ export function ReviewsSection() {
               </blockquote>
             </div>
 
-            <div className="pt-6 border-t border-white/10 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full liquid-glass flex items-center justify-center font-mono text-xs font-semibold text-white">
+            <div className="pt-6 border-t border-foreground/10 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full liquid-glass flex items-center justify-center font-mono text-xs font-semibold text-primary">
                 {rev.author.split(" ").map(n => n[0]).join("")}
               </div>
               <div>

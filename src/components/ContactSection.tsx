@@ -33,8 +33,8 @@ export function ContactSection() {
         {/* Left Studio Details Card */}
         <div className="lg:col-span-5 glass-card rounded-3xl p-8 sm:p-10 flex flex-col justify-between">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-8">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-primary/10 text-primary border border-primary/20 mb-8">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
               Accepting 2 new client projects
             </div>
 
@@ -49,16 +49,16 @@ export function ContactSection() {
               Whether you need a complete ground-up website redesign, an interactive product launch, or a dedicated frontend engineering team, we're here to make it happen.
             </p>
 
-            <div className="space-y-5 border-t border-white/10 pt-6">
+            <div className="space-y-5 border-t border-foreground/10 pt-6">
               <div className="flex items-center gap-3 text-sm text-foreground">
-                <div className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center text-white/80">
+                <div className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center text-primary">
                   <Mail className="w-4 h-4" />
                 </div>
                 <span>hello@armslyn.tech</span>
               </div>
 
               <div className="flex items-center gap-3 text-sm text-foreground">
-                <div className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center text-white/80">
+                <div className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center text-primary">
                   <MapPin className="w-4 h-4" />
                 </div>
                 <span>Global Remote Studio • Worldwide Clients</span>
@@ -66,7 +66,7 @@ export function ContactSection() {
             </div>
           </div>
 
-          <div className="mt-8 pt-6 border-t border-white/5 text-xs text-muted-foreground font-mono">
+          <div className="mt-8 pt-6 border-t border-foreground/10 text-xs text-muted-foreground font-mono">
             Average response time: &lt; 4 hours
           </div>
         </div>
@@ -75,7 +75,7 @@ export function ContactSection() {
         <div className="lg:col-span-7 glass-card rounded-3xl p-8 sm:p-12 relative">
           {submitted ? (
             <div className="h-full min-h-[360px] flex flex-col items-center justify-center text-center py-12">
-              <div className="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-4">
+              <div className="w-14 h-14 rounded-full bg-primary/20 text-primary flex items-center justify-center mb-4">
                 <CheckCircle className="w-7 h-7" />
               </div>
               <h4
@@ -101,7 +101,7 @@ export function ContactSection() {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="Marcus Vance"
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-white/30 transition-colors"
+                    className="w-full bg-foreground/[0.04] border border-foreground/15 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary transition-colors"
                   />
                 </div>
 
@@ -115,7 +115,7 @@ export function ContactSection() {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="marcus@company.com"
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-white/30 transition-colors"
+                    className="w-full bg-foreground/[0.04] border border-foreground/15 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary transition-colors"
                   />
                 </div>
               </div>
@@ -127,7 +127,7 @@ export function ContactSection() {
                 <select
                   value={formData.service}
                   onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                  className="w-full bg-background border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground focus:outline-none focus:border-white/30 transition-colors"
+                  className="w-full bg-background border border-foreground/15 rounded-xl px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
                 >
                   <option value="Web Development">Full Website Design & Build</option>
                   <option value="Web Application">Interactive Web Application</option>
@@ -146,15 +146,15 @@ export function ContactSection() {
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Share details about your brand, current site, target timeline, or vision..."
-                  className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-white/30 transition-colors resize-none"
+                  className="w-full bg-foreground/[0.04] border border-foreground/15 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary transition-colors resize-none"
                 />
               </div>
 
               <button
                 type="submit"
-                className="liquid-glass w-full rounded-full py-4 text-sm font-medium text-foreground transition-transform duration-300 hover:scale-[1.02] cursor-pointer inline-flex items-center justify-center gap-2"
+                className="liquid-glass w-full rounded-full py-4 text-sm font-medium text-foreground hover:text-primary hover:border-primary/40 transition-all duration-300 hover:scale-[1.02] cursor-pointer inline-flex items-center justify-center gap-2"
               >
-                Send Inquiry <Send className="w-4 h-4" />
+                Send Inquiry <Send className="w-4 h-4 text-primary" />
               </button>
             </form>
           )}
