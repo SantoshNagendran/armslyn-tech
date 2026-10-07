@@ -17,8 +17,8 @@ import { LoadingScreen } from "./components/LoadingScreen"
 gsap.registerPlugin(ScrollTrigger)
 
 const BRAND_NAME = "Armslyn Tech"
-const VIDEO_SRC =
-  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4"
+const VIDEO_SRC = "/hero.mp4"
+
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true)
@@ -41,7 +41,7 @@ export default function App() {
         playPromise.catch(() => {
           // If browser initially paused autoplay, resume on earliest user interaction
           const handleInteraction = () => {
-            vid.play().catch(() => {})
+            vid.play().catch(() => { })
             window.removeEventListener("click", handleInteraction)
             window.removeEventListener("touchstart", handleInteraction)
             window.removeEventListener("scroll", handleInteraction)
@@ -205,9 +205,8 @@ export default function App() {
           <button
             id="header-logo"
             onClick={() => scrollTo("hero")}
-            className={`text-2xl sm:text-3xl font-bold tracking-tight text-[#0f233a] transition-opacity duration-500 hover:text-[#f46a06] inline-flex items-baseline cursor-pointer ${
-              isLoading ? "opacity-0" : "opacity-100"
-            }`}
+            className={`text-2xl sm:text-3xl font-bold tracking-tight text-[#0f233a] transition-opacity duration-500 hover:text-[#f46a06] inline-flex items-baseline cursor-pointer ${isLoading ? "opacity-0" : "opacity-100"
+              }`}
             style={{ fontFamily: "'Instrument Serif', serif" }}
           >
             <span>{BRAND_NAME}</span>
