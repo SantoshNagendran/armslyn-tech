@@ -17,7 +17,7 @@ import { LoadingScreen } from "./components/LoadingScreen"
 gsap.registerPlugin(ScrollTrigger)
 
 const BRAND_NAME = "Armslyn Tech"
-const VIDEO_SRC = "/hero.mp4"
+const VIDEO_SRC = `${import.meta.env.BASE_URL}hero.mp4`
 
 
 export default function App() {
