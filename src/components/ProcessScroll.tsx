@@ -136,12 +136,12 @@ export default function ProcessScroll() {
       ref={containerRef}
       id="process"
       aria-label="How we build a website"
-      className="relative h-[320vh] bg-background"
+      className="relative h-[320vh] bg-transparent"
     >
       {/* Sticky viewport frame pinned across the scroll progress */}
       <div
         ref={stickyRef}
-        className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-background"
+        className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-background/85 backdrop-blur-sm"
       >
         {/* STAGE 1: BLUEPRINT */}
         <motion.div

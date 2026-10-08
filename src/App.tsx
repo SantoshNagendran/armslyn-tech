@@ -14,6 +14,7 @@ import ProcessScroll from "./components/ProcessScroll"
 import { Footer } from "./components/Footer"
 import { LoadingScreen } from "./components/LoadingScreen"
 import { FlowButton } from "./components/ui/flow-button"
+import TopoField from "./components/ui/topo-field"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -193,6 +194,21 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen w-full bg-background text-foreground selection:bg-primary/20 selection:text-primary">
+      {/* Topographic Background with Warm Site Colors */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <TopoField
+          mode="warm"
+          speed={0.6}
+          length={1.2}
+          density={1}
+          opacity={0.6}
+          backgroundColor="#D8D0A8"
+          className="w-full h-full pointer-events-none"
+        />
+        {/* Subtle radial vignette overlay for enhanced depth */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,hsl(46_33%_75%_/_40%)_100%)] pointer-events-none" />
+      </div>
+
       {/* Loading Screen */}
       {isLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
 
