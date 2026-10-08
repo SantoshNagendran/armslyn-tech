@@ -13,6 +13,7 @@ import { ContactSection } from "./components/ContactSection"
 import ProcessScroll from "./components/ProcessScroll"
 import { Footer } from "./components/Footer"
 import { LoadingScreen } from "./components/LoadingScreen"
+import { FlowButton } from "./components/ui/flow-button"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -237,12 +238,7 @@ export default function App() {
 
           {/* Action Button & Mobile Toggle */}
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => scrollTo("contact")}
-              className="btn-glass inline-flex items-center justify-center rounded-full px-5 py-2 text-xs sm:text-sm font-bold cursor-pointer"
-            >
-              Start a Project
-            </button>
+            <FlowButton text="Start a Project" onClick={() => scrollTo("contact")} />
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -312,19 +308,14 @@ export default function App() {
             <em className="not-italic text-primary">hold attention.</em>
           </h1>
 
-          <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mt-8 leading-relaxed animate-fade-rise-delay">
+          <p className="text-white text-base sm:text-lg max-w-2xl mt-8 leading-relaxed animate-fade-rise-delay">
             {BRAND_NAME} is a small web development studio. We design and build fast,
             clean websites and web apps for businesses that want their online
             presence to actually work.
           </p>
 
-          <div className="mt-12">
-            <button
-              onClick={() => scrollTo("contact")}
-              className="btn-glass inline-flex items-center justify-center rounded-full px-14 py-5 text-base font-bold cursor-pointer animate-fade-rise-delay-2"
-            >
-              Start a Project
-            </button>
+          <div className="mt-12 animate-fade-rise-delay-2">
+            <FlowButton text="Start a Project" onClick={() => scrollTo("contact")} />
           </div>
         </div>
 
