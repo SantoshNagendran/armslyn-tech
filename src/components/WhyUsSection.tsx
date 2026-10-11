@@ -11,7 +11,7 @@ export function WhyUsSection() {
     {
       icon: Eye,
       title: "Visual Gravitas",
-      desc: "Our typography, layout geometry, and animations are designed to hold user attention in an era of rapid scrolling and fleeting attention spans.",
+      desc: "Our typography, layout geometry, and animations are designed to hold human attention in an era of rapid scrolling and fleeting attention spans.",
     },
     {
       icon: Code2,
@@ -26,51 +26,46 @@ export function WhyUsSection() {
   ]
 
   return (
-    <section id="why-us" className="relative py-28 sm:py-36 w-full z-10 bg-[#d8d0a8] text-[#0f233a] overflow-hidden border-b border-[#567C8D]/20">
-      {/* Warm Ambient Texture */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(244,106,6,0.08)_0%,transparent_50%)] pointer-events-none" />
+    <section id="why-us" className="relative py-32 px-6 max-w-7xl mx-auto w-full z-10">
+      <SectionHeader
+        badge="Why Us"
+        title="Engineered differently because"
+        highlight="details matter."
+        subtitle="Here is why growing companies and creative visionaries choose Armslyn Tech over traditional bloated agencies."
+        dark={false}
+      />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <SectionHeader
-          badge="Why Us"
-          title="Engineered differently because"
-          highlight="details matter."
-          subtitle="Here is why growing companies and creative visionaries choose Armslyn Tech over traditional bloated agencies."
-          dark={false}
-        />
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {reasons.map((reason, idx) => {
-            const Icon = reason.icon
-            return (
-              <div
-                key={idx}
-                className="liquid-glass rounded-2xl p-7 transition-all duration-300 hover:border-[#f46a06]/50 hover:-translate-y-1 relative group flex flex-col justify-between shadow-lg"
-              >
-                <div>
-                  <div className="w-10 h-10 rounded-xl bg-[#0f233a]/8 border border-[#0f233a]/15 flex items-center justify-center mb-6 text-[#f46a06]">
-                    <Icon className="w-5 h-5" />
-                  </div>
-
-                  <h3
-                    className="text-xl text-[#0f233a] font-normal mb-3"
-                    style={{ fontFamily: "'Instrument Serif', serif" }}
-                  >
-                    {reason.title}
-                  </h3>
-
-                  <p className="text-sm text-[#476779] leading-relaxed font-light">
-                    {reason.desc}
-                  </p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {reasons.map((reason, idx) => {
+          const Icon = reason.icon
+          return (
+            <div
+              key={idx}
+              className="glass-card rounded-2xl p-7 transition-all duration-300 hover:border-primary/40 hover:-translate-y-1 relative group flex flex-col justify-between"
+            >
+              <div>
+                <div className="w-10 h-10 rounded-xl liquid-glass flex items-center justify-center mb-6">
+                  <Icon className="w-5 h-5 text-primary" />
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-[#0f233a]/10 text-[10px] font-mono text-[#0f233a]/60 uppercase tracking-widest">
-                  Standard #{idx + 1}
-                </div>
+                <h3
+                  className="text-xl text-foreground font-normal mb-3"
+                  style={{ fontFamily: "'Instrument Serif', serif" }}
+                >
+                  {reason.title}
+                </h3>
+
+                <p className="text-sm text-muted-foreground leading-relaxed font-light">
+                  {reason.desc}
+                </p>
               </div>
-            )
-          })}
-        </div>
+
+              <div className="mt-6 pt-4 border-t border-foreground/10 text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
+                Standard #{idx + 1}
+              </div>
+            </div>
+          )
+        })}
       </div>
     </section>
   )
