@@ -354,29 +354,29 @@ export default function App() {
       {/* Scroll-Driven Storytelling Process Section */}
       <ProcessScroll />
 
-      {/* Content Sections with Smooth Scroll Reveals */}
-      <div className="relative z-20 space-y-24 sm:space-y-32">
-        <div className="reveal-on-scroll">
+      {/* Thematic Content Sections with Smooth Scroll Reveals */}
+      <div className="relative z-20 w-full">
+        <div className="reveal-on-scroll w-full">
           <AboutSection />
         </div>
 
-        <div className="reveal-on-scroll">
+        <div className="reveal-on-scroll w-full">
           <ServicesSection />
         </div>
 
-        <div className="reveal-on-scroll">
+        <div className="reveal-on-scroll w-full">
           <ProjectsSection />
         </div>
 
-        <div className="reveal-on-scroll">
+        <div className="reveal-on-scroll w-full">
           <WhyUsSection />
         </div>
 
-        <div className="reveal-on-scroll">
+        <div className="reveal-on-scroll w-full">
           <ReviewsSection />
         </div>
 
-        <div className="reveal-on-scroll">
+        <div className="reveal-on-scroll w-full">
           <ContactSection />
         </div>
       </div>

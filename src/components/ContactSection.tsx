@@ -21,143 +21,151 @@ export function ContactSection() {
   }
 
   return (
-    <section id="contact" className="relative py-32 px-6 max-w-7xl mx-auto w-full z-10">
-      <SectionHeader
-        badge="Contact Us"
-        title="Ready to build something"
-        highlight="truly exceptional?"
-        subtitle="Tell us about your brand, goals, and timeline. We'll get back to you within 24 hours with a comprehensive evaluation."
-      />
+    <section id="contact" className="relative py-28 sm:py-36 w-full z-10 bg-[#040711] text-white overflow-hidden">
+      {/* Orange Horizon Beacon Atmosphere */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-gradient-to-t from-[#f46a06]/20 via-[#f46a06]/5 to-transparent blur-[160px] pointer-events-none" />
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
-        {/* Left Studio Details Card */}
-        <div className="lg:col-span-5 glass-card rounded-3xl p-8 sm:p-10 flex flex-col justify-between">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-primary/10 text-primary border border-primary/20 mb-8">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              Accepting 2 new client projects
-            </div>
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <SectionHeader
+          badge="Contact Us"
+          title="Ready to build something"
+          highlight="truly exceptional?"
+          subtitle="Tell us about your brand, goals, and timeline. We'll get back to you within 24 hours with a comprehensive evaluation."
+          dark={true}
+        />
 
-            <h3
-              className="text-3xl sm:text-4xl text-foreground font-normal mb-4"
-              style={{ fontFamily: "'Instrument Serif', serif" }}
-            >
-              Let's craft your digital benchmark.
-            </h3>
-
-            <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-8">
-              Whether you need a complete ground-up website redesign, an interactive product launch, or a dedicated frontend engineering team, we're here to make it happen.
-            </p>
-
-            <div className="space-y-5 border-t border-foreground/10 pt-6">
-              <div className="flex items-center gap-3 text-sm text-foreground">
-                <div className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center text-primary">
-                  <Mail className="w-4 h-4" />
-                </div>
-                <span>hello@armslyn.tech</span>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
+          {/* Left Studio Details Card */}
+          <div className="lg:col-span-5 rounded-3xl p-8 sm:p-10 bg-slate-900/60 border border-slate-800/90 backdrop-blur-md flex flex-col justify-between shadow-2xl">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-[#f46a06]/10 text-[#f46a06] border border-[#f46a06]/25 mb-8">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#f46a06] animate-pulse" />
+                Accepting 2 new client projects
               </div>
 
-              <div className="flex items-center gap-3 text-sm text-foreground">
-                <div className="w-8 h-8 rounded-full liquid-glass flex items-center justify-center text-primary">
-                  <MapPin className="w-4 h-4" />
-                </div>
-                <span>Global Remote Studio • Worldwide Clients</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-8 pt-6 border-t border-foreground/10 text-xs text-muted-foreground font-mono">
-            Average response time: &lt; 4 hours
-          </div>
-        </div>
-
-        {/* Right Contact Form Card */}
-        <div className="lg:col-span-7 glass-card rounded-3xl p-8 sm:p-12 relative">
-          {submitted ? (
-            <div className="h-full min-h-[360px] flex flex-col items-center justify-center text-center py-12">
-              <div className="w-14 h-14 rounded-full bg-primary/20 text-primary flex items-center justify-center mb-4">
-                <CheckCircle className="w-7 h-7" />
-              </div>
-              <h4
-                className="text-3xl text-foreground font-normal mb-2"
+              <h3
+                className="text-3xl sm:text-4xl text-white font-normal mb-4"
                 style={{ fontFamily: "'Instrument Serif', serif" }}
               >
-                Inquiry Received
-              </h4>
-              <p className="text-muted-foreground text-sm max-w-md">
-                Thank you for reaching out! Our lead engineer will review your requirements and reach out via email shortly.
+                Let's craft your digital benchmark.
+              </h3>
+
+              <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-8 font-light">
+                Whether you need a complete ground-up website redesign, an interactive product launch, or a dedicated frontend engineering team, we're here to make it happen.
               </p>
+
+              <div className="space-y-5 border-t border-slate-800/80 pt-6">
+                <div className="flex items-center gap-3 text-sm text-slate-200">
+                  <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#f46a06]">
+                    <Mail className="w-4 h-4" />
+                  </div>
+                  <span>hello@armslyn.tech</span>
+                </div>
+
+                <div className="flex items-center gap-3 text-sm text-slate-200">
+                  <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#f46a06]">
+                    <MapPin className="w-4 h-4" />
+                  </div>
+                  <span>Global Client Collaborations</span>
+                </div>
+              </div>
             </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-2">
-                    Your Name
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Marcus Vance"
-                    className="w-full bg-foreground/[0.04] border border-foreground/15 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary transition-colors"
-                  />
-                </div>
 
-                <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-2">
-                    Work Email
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="marcus@company.com"
-                    className="w-full bg-foreground/[0.04] border border-foreground/15 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary transition-colors"
-                  />
-                </div>
-              </div>
+            <div className="mt-8 pt-6 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-400">
+              <span>Timezone: UTC+5:30 (Global)</span>
+              <span>Response: &lt; 24h</span>
+            </div>
+          </div>
 
-              <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-2">
-                  Project Scope
-                </label>
-                <select
-                  value={formData.service}
-                  onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                  className="w-full bg-background border border-foreground/15 rounded-xl px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
+          {/* Right Form Card */}
+          <div className="lg:col-span-7 rounded-3xl p-8 sm:p-10 bg-slate-900/60 border border-slate-800/90 backdrop-blur-md shadow-2xl">
+            {submitted ? (
+              <div className="h-full min-h-[380px] flex flex-col items-center justify-center text-center p-8">
+                <div className="w-16 h-16 rounded-full bg-[#f46a06]/20 border border-[#f46a06]/40 flex items-center justify-center text-[#f46a06] mb-6 animate-bounce">
+                  <CheckCircle className="w-8 h-8" />
+                </div>
+                <h4
+                  className="text-3xl text-white font-normal mb-2"
+                  style={{ fontFamily: "'Instrument Serif', serif" }}
                 >
-                  <option value="Web Development">Full Website Design & Build</option>
-                  <option value="Web Application">Interactive Web Application</option>
-                  <option value="Motion & 3D">Motion Choreography & 3D WebGL</option>
-                  <option value="Performance Overhaul">Performance & Speed Overhaul</option>
-                </select>
+                  Inquiry Received
+                </h4>
+                <p className="text-slate-300 text-sm max-w-sm">
+                  Thank you for reaching out. A partner from Armslyn Tech will review your project and get back to you shortly.
+                </p>
               </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-xs font-mono uppercase tracking-wider text-slate-400 mb-2">
+                      Your Name
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder="Alex Mercer"
+                      className="w-full px-4 py-3 rounded-xl bg-slate-950/80 border border-slate-800 text-white placeholder:text-slate-500 focus:outline-none focus:border-[#f46a06] focus:ring-1 focus:ring-[#f46a06]/40 transition-all text-sm font-sans"
+                    />
+                  </div>
 
-              <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-2">
-                  Project Details
-                </label>
-                <textarea
-                  rows={4}
-                  required
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  placeholder="Share details about your brand, current site, target timeline, or vision..."
-                  className="w-full bg-foreground/[0.04] border border-foreground/15 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary transition-colors resize-none"
-                />
-              </div>
+                  <div>
+                    <label className="block text-xs font-mono uppercase tracking-wider text-slate-400 mb-2">
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      placeholder="alex@company.com"
+                      className="w-full px-4 py-3 rounded-xl bg-slate-950/80 border border-slate-800 text-white placeholder:text-slate-500 focus:outline-none focus:border-[#f46a06] focus:ring-1 focus:ring-[#f46a06]/40 transition-all text-sm font-sans"
+                    />
+                  </div>
+                </div>
 
-              <button
-                type="submit"
-                className="liquid-glass glass-glow-orange w-full rounded-full py-4 text-sm font-bold text-[#0f233a] hover:text-[#f46a06] transition-all duration-300 hover:scale-[1.02] cursor-pointer inline-flex items-center justify-center gap-2"
-              >
-                Send Inquiry <Send className="w-4 h-4 text-primary" />
-              </button>
-            </form>
-          )}
+                <div>
+                  <label className="block text-xs font-mono uppercase tracking-wider text-slate-400 mb-2">
+                    Service Required
+                  </label>
+                  <select
+                    value={formData.service}
+                    onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl bg-slate-950/80 border border-slate-800 text-white focus:outline-none focus:border-[#f46a06] focus:ring-1 focus:ring-[#f46a06]/40 transition-all text-sm font-sans"
+                  >
+                    <option value="Web Development" className="bg-slate-900">Bespoke Web Development</option>
+                    <option value="Web Apps" className="bg-slate-900">High-Performance Web App</option>
+                    <option value="Motion & 3D" className="bg-slate-900">Cinematic Motion & GSAP Experience</option>
+                    <option value="Consulting & SEO" className="bg-slate-900">Performance & SEO Engineering</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-mono uppercase tracking-wider text-slate-400 mb-2">
+                    Project Details
+                  </label>
+                  <textarea
+                    rows={4}
+                    required
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    placeholder="Tell us about your brand, what you're looking to build, and any target launch dates..."
+                    className="w-full px-4 py-3 rounded-xl bg-slate-950/80 border border-slate-800 text-white placeholder:text-slate-500 focus:outline-none focus:border-[#f46a06] focus:ring-1 focus:ring-[#f46a06]/40 transition-all text-sm font-sans resize-none"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#f46a06] to-[#ff8c3a] text-black font-semibold text-sm tracking-wide flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.99] transition-all cursor-pointer shadow-lg shadow-[#f46a06]/20"
+                >
+                  <span>Submit Inquiry</span>
+                  <Send className="w-4 h-4" />
+                </button>
+              </form>
+            )}
+          </div>
         </div>
       </div>
     </section>
