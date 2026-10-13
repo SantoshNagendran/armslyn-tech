@@ -1,8 +1,16 @@
+import { useEffect, useRef } from "react"
 import { UserPlus, Sparkles } from "lucide-react"
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { BackgroundCells } from "./ui/background-ripple-effect"
 import { BeliefCarousel } from "./BeliefCarousel"
 
+gsap.registerPlugin(ScrollTrigger)
+
 export function AboutSection() {
+  const sectionRef = useRef<HTMLElement>(null)
+  const darkBgRef = useRef<HTMLDivElement>(null)
+
   // Three blank founder slots ready to be populated later
   const blankFounders = [
     {
@@ -25,16 +33,48 @@ export function AboutSection() {
     },
   ]
 
+  useEffect(() => {
+    const section = sectionRef.current
+    const darkContainer = darkBgRef.current
+    if (!section || !darkContainer) return
+
+    const ctx = gsap.context(() => {
+      // Smooth entrance fade as user arrives at the section, then it stays fully visible
+      gsap.fromTo(
+        darkContainer,
+        { opacity: 0.15 },
+        {
+          opacity: 1,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: section,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        }
+      )
+    }, section)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section id="about" className="relative py-20 sm:py-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full z-10">
-      {/* Floating Dark Overlay Container over the cream site background */}
-      <div className="rounded-[32px] sm:rounded-[40px] overflow-hidden border border-slate-800/90 shadow-[0_30px_70px_-20px_rgba(0,0,0,0.45)] relative bg-[#030712]">
-        
-        {/* BackgroundCells ripple effect contained strictly inside this dark card overlay */}
-        <BackgroundCells className="w-full py-16 sm:py-24 px-6 sm:px-12">
+    <section
+      ref={sectionRef}
+      id="about"
+      className="relative w-full z-10 py-12 sm:py-16"
+    >
+      {/* Dark atmospheric wrapper with feathered mask and scroll-driven fade in/out */}
+      <div
+        ref={darkBgRef}
+        className="relative w-full overflow-hidden [mask-image:linear-gradient(to_bottom,transparent_0%,black_120px,black_calc(100%-140px),transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_120px,black_calc(100%-140px),transparent_100%)]"
+        style={{ willChange: "opacity" }}
+      >
+        <BackgroundCells className="w-full pt-20 sm:pt-28 pb-48 sm:pb-60 px-4 sm:px-6 lg:px-8">
           <div className="max-w-6xl mx-auto w-full relative z-20">
-            
-            {/* Header - No pill badge, opens directly into the human origin story */}
+
+            {/* Header — Human origin story */}
             <div className="text-center max-w-4xl mx-auto mb-20">
               <h2
                 className="text-4xl sm:text-6xl md:text-7xl tracking-tight text-white leading-[1.06] mb-6"
@@ -49,8 +89,8 @@ export function AboutSection() {
               </p>
             </div>
 
-            {/* Three Blank Founder Cards with Tactile Placeholder Frames */}
-            <div className="mb-24">
+            {/* Three Blank Founder Cards */}
+            <div className="mb-12 sm:mb-14">
               <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-800/80">
                 <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-slate-400">
                   <Sparkles className="w-4 h-4 text-[#f46a06]" />
@@ -137,7 +177,7 @@ export function AboutSection() {
             </div>
 
             {/* What We Believe Carousel */}
-            <div className="pt-8 border-t border-slate-800/80">
+            <div className="pt-6 sm:pt-7 border-t border-slate-800/80">
               <BeliefCarousel />
             </div>
 

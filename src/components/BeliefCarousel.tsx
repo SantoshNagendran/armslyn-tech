@@ -98,7 +98,7 @@ export function BeliefCarousel() {
       onMouseLeave={() => setIsPaused(false)}
     >
       {/* Carousel Heading & Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-5 sm:mb-6">
         <div>
           <span className="text-xs font-mono uppercase tracking-widest text-[#f46a06] block mb-2">
             Our Studio Manifesto

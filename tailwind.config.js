@@ -36,6 +36,10 @@ export default {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--foreground))",
         },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
       },
       fontFamily: {
         display: ["var(--font-display)", "serif"],

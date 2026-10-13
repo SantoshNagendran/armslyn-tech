@@ -15,6 +15,8 @@
   --accent: 25 95% 49%;            /* brand orange */
   --border: 199 15% 55%;           /* blue-ish border */
   --input: 199 15% 55%;
+  --card: 46 30% 78%;              /* slightly lighter sand for cards */
+  --card-foreground: 199 24% 45%;  /* same steel blue */
   --font-display: 'Instrument Serif', serif;
   --font-body: 'Inter', sans-serif;
 }

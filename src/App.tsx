@@ -6,7 +6,9 @@ import { ChevronDown, Menu, X } from "lucide-react"
 
 import { AboutSection } from "./components/AboutSection"
 import { ServicesSection } from "./components/ServicesSection"
+import OrbitingCirclesGlobeDemo from "./components/ui/orbiting-circles-02"
 import { ProjectsSection } from "./components/ProjectsSection"
+import { PortfolioPage } from "./components/PortfolioPage"
 import { WhyUsSection } from "./components/WhyUsSection"
 import { ReviewsSection } from "./components/ReviewsSection"
 import { ContactSection } from "./components/ContactSection"
@@ -25,11 +27,29 @@ const VIDEO_SRC = `${import.meta.env.BASE_URL}hero1.mp4`
 export default function App() {
   const [isLoading, setIsLoading] = useState(true)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [currentPage, setCurrentPage] = useState<"home" | "portfolio">("home")
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null)
   const lenisRef = useRef<Lenis | null>(null)
   const heroWrapperRef = useRef<HTMLDivElement>(null)
   const heroContentRef = useRef<HTMLDivElement>(null)
   const videoContainerRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
+
+  // Listen to hash changes for browser back/forward support
+  useEffect(() => {
+    const handleHash = () => {
+      if (window.location.hash === "#portfolio") {
+        setCurrentPage("portfolio")
+        window.scrollTo(0, 0)
+        lenisRef.current?.scrollTo(0, { immediate: true })
+      } else {
+        setCurrentPage("home")
+      }
+    }
+    handleHash()
+    window.addEventListener("hashchange", handleHash)
+    return () => window.removeEventListener("hashchange", handleHash)
+  }, [])
 
   // Ensure video autoplays after loading screen finishes
   useEffect(() => {
@@ -187,9 +207,33 @@ export default function App() {
       } else {
         element.scrollIntoView({ behavior: "auto" })
       }
-      // Re-synchronize ScrollTrigger pins and positions cleanly
       ScrollTrigger.refresh()
     }
+  }
+
+  const openPortfolio = (projectId?: string) => {
+    if (projectId) setSelectedProjectId(projectId)
+    setCurrentPage("portfolio")
+    window.location.hash = "#portfolio"
+    window.scrollTo({ top: 0, behavior: "instant" })
+    lenisRef.current?.scrollTo(0, { immediate: true })
+  }
+
+  const closePortfolio = () => {
+    setCurrentPage("home")
+    window.location.hash = "#work"
+    setTimeout(() => {
+      scrollTo("work")
+    }, 60)
+  }
+
+  if (currentPage === "portfolio") {
+    return (
+      <PortfolioPage
+        onBack={closePortfolio}
+        initialSelectedProjectId={selectedProjectId}
+      />
+    )
   }
 
   return (
@@ -356,16 +400,20 @@ export default function App() {
 
       {/* Content Sections with Smooth Scroll Reveals */}
       <div className="relative z-20 w-full space-y-24 sm:space-y-32">
-        <div className="reveal-on-scroll w-full">
+        <div className="w-full">
           <AboutSection />
         </div>
 
         <div className="reveal-on-scroll w-full">
           <ServicesSection />
+          {/* Orbiting circles tech stack directly under Services with NO background */}
+          <div className="w-full -mt-6 sm:-mt-10 overflow-hidden flex justify-center bg-transparent">
+            <OrbitingCirclesGlobeDemo />
+          </div>
         </div>
 
         <div className="reveal-on-scroll w-full">
-          <ProjectsSection />
+          <ProjectsSection onOpenPortfolio={openPortfolio} />
         </div>
 
         <div className="reveal-on-scroll w-full">
