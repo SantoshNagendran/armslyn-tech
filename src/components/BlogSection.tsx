@@ -29,7 +29,6 @@ export function BlogSection() {
   return (
     <section id="blog" className="relative py-32 px-6 max-w-7xl mx-auto w-full z-10">
       <SectionHeader
-        badge="Editorial & Blog"
         title="Perspectives on engineering,"
         highlight="motion, and design."
         subtitle="Insights from our studio on building web experiences that capture curiosity and withstand the test of time."
