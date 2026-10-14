@@ -8,46 +8,31 @@ import {
   Check,
   Clock,
   Sparkles,
-  ShieldCheck,
-  Calendar,
-  ArrowRight,
   MessageSquare,
-  Zap,
-  Terminal,
+  ArrowRight,
+  ShieldCheck,
+  HelpCircle,
 } from "lucide-react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import anime from "animejs/lib/anime.es.js"
 
 gsap.registerPlugin(ScrollTrigger)
-
-type ProjectType = "brand-web" | "web-app" | "motion-experience" | "design-system"
-type TimelineType = "fast-track" | "standard" | "retainer"
 
 export function ContactSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
-  const estimateMeterRef = useRef<HTMLSpanElement>(null)
 
-  // Interactive Project Configurator state
-  const [projectType, setProjectType] = useState<ProjectType>("brand-web")
-  const [selectedChips, setSelectedChips] = useState<string[]>([
-    "Sub-Second Speed",
-    "60fps Motion",
-  ])
-  const [timeline, setTimeline] = useState<TimelineType>("standard")
-
-  // Form Fields
+  // Open-ended form fields — no rigid constraints or fixed options
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    company: "",
+    context: "", // optional website or link
     message: "",
   })
   const [submitted, setSubmitted] = useState(false)
   const [copiedEmail, setCopiedEmail] = useState(false)
 
-  // Watermelon UI: Dynamic mouse spotlight tracking
+  // Watermelon UI: Dynamic warm mouse spotlight tracking (warm orange/amber, no cold blue)
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const cards = containerRef.current?.querySelectorAll<HTMLDivElement>(".bento-spotlight-card")
     if (!cards) return
@@ -60,13 +45,6 @@ export function ContactSection() {
     })
   }
 
-  // Toggle capabilities
-  const toggleChip = (chip: string) => {
-    setSelectedChips((prev) =>
-      prev.includes(chip) ? prev.filter((c) => c !== chip) : [...prev, chip]
-    )
-  }
-
   // Copy email helper
   const handleCopyEmail = () => {
     navigator.clipboard.writeText("hello@armslyn.tech")
@@ -74,31 +52,21 @@ export function ContactSection() {
     setTimeout(() => setCopiedEmail(false), 2500)
   }
 
-  // Animated meter when project type or timeline updates
-  useEffect(() => {
-    if (!estimateMeterRef.current) return
-    const values: Record<ProjectType, number> = {
-      "brand-web": 95,
-      "web-app": 100,
-      "motion-experience": 98,
-      "design-system": 90,
-    }
-    const targetScore = values[projectType] || 95
-    const obj = { val: 60 }
+  // Quick conversation prompts to help clients think of what to ask
+  const quickIdeas = [
+    "We need a complete website build",
+    "Can you audit & fix our site speed?",
+    "Need custom 60fps animations & motion",
+    "Have an MVP idea to build in 3 weeks",
+    "Just want to ask about pricing & scope",
+  ]
 
-    anime({
-      targets: obj,
-      val: targetScore,
-      round: 1,
-      easing: "easeOutExpo",
-      duration: 1000,
-      update: () => {
-        if (estimateMeterRef.current) {
-          estimateMeterRef.current.innerHTML = `${obj.val.toFixed(0)}%`
-        }
-      },
-    })
-  }, [projectType, timeline])
+  const handleApplyIdea = (idea: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      message: prev.message ? `${prev.message}\n• ${idea}` : idea,
+    }))
+  }
 
   // GSAP reveal on scroll
   useEffect(() => {
@@ -145,70 +113,70 @@ export function ContactSection() {
     >
       {/* Section Header with "Contact Us" Pill REMOVED */}
       <SectionHeader
-        title="Ready to build something"
-        highlight="truly exceptional?"
-        subtitle="Skip the agency sales runaround. Tell us what you're building, configure your ideal scope, or connect directly with our founding engineers."
+        title="Have an idea, a project, or"
+        highlight="just a question?"
+        subtitle="No rigid intake forms or prefabricated packages. Whether you're planning a full platform from scratch, want to revamp an existing site, or simply want to ask real engineers if an idea is feasible — write whatever's on your mind."
         dark={false}
       />
 
-      {/* Main Interactive Studio Hub (12-column Bento Spotlight Layout) */}
+      {/* Main Studio Hub (Warm Charcoal & Sand Palette — NO AI Blue) */}
       <div
         ref={containerRef}
         onMouseMove={handleMouseMove}
         className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch relative"
       >
-        {/* ── LEFT COLUMN (5 cols): Direct Studio Terminal & Fast-Track Lines ── */}
-        <div className="bento-spotlight-card lg:col-span-5 rounded-3xl p-7 sm:p-9 glass-card border border-[#0f233a]/15 relative overflow-hidden flex flex-col justify-between group transition-all duration-500 hover:border-[#f46a06]/40 hover:shadow-2xl hover:shadow-[#f46a06]/10">
-          {/* Spotlight Radial Overlay */}
+        {/* ── LEFT COLUMN (5 cols): Direct Studio Lines & Open Door Policy ── */}
+        <div className="bento-spotlight-card lg:col-span-5 rounded-3xl p-7 sm:p-9 glass-card border border-[#1c1917]/15 relative overflow-hidden flex flex-col justify-between group transition-all duration-500 hover:border-[#f46a06]/40 hover:shadow-2xl hover:shadow-[#f46a06]/10">
+          {/* Spotlight Radial Overlay (Warm Amber Glow) */}
           <div className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[radial-gradient(600px_circle_at_var(--mouse-x,0px)_var(--mouse-y,0px),rgba(244,106,6,0.12),transparent_70%)]" />
 
           <div>
-            {/* Live Studio Availability Status (No pill badge) */}
-            <div className="flex items-center justify-between pb-4 mb-6 border-b border-[#0f233a]/10">
+            {/* Availability Notice */}
+            <div className="flex items-center justify-between pb-4 mb-6 border-b border-[#1c1917]/10">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-xs font-mono font-bold text-[#0f233a] uppercase tracking-wider">
-                  Studio Capacity
+                <span className="text-xs font-mono font-bold text-[#1c1917] uppercase tracking-wider">
+                  Direct Line Open
                 </span>
               </div>
-              <span className="text-xs font-mono text-emerald-800 font-semibold bg-emerald-50 border border-emerald-200/80 px-2.5 py-0.5 rounded-md">
-                2 Project Slots Available
+              <span className="text-xs font-mono text-[#1c1917]/70 font-medium">
+                Founders active today
               </span>
             </div>
 
             <h3
-              className="text-3xl sm:text-4xl text-[#0f233a] font-normal mb-3"
+              className="text-3xl sm:text-4xl text-[#1c1917] font-normal mb-3"
               style={{ fontFamily: "'Instrument Serif', serif" }}
             >
-              Direct access. Zero sales layers.
+              Talk directly with the makers.
             </h3>
 
-            <p className="text-sm sm:text-base text-[#0f233a]/75 font-light leading-relaxed mb-8">
-              You won't be passed around between sales reps and junior interns. When you reach out to Armslyn Tech, you talk directly with the lead engineers writing the code.
+            <p className="text-sm sm:text-base text-[#1c1917]/75 font-light leading-relaxed mb-8">
+              We don't have account managers or automated sales reps. You will be talking directly with Santosh and our core studio builders. Ask us anything — from feasibility and tech stack advice to budgets and timelines.
             </p>
 
-            {/* Direct Channel Action Cards */}
+            {/* Direct Connect Options */}
             <div className="space-y-3 mb-8">
-              {/* Copy Email Card */}
+              {/* Copy Studio Email */}
               <div
                 onClick={handleCopyEmail}
-                className="p-3.5 rounded-2xl liquid-glass border border-[#0f233a]/10 flex items-center justify-between hover:border-[#f46a06]/40 hover:bg-white/60 transition-all cursor-pointer group/mail"
+                className="p-4 rounded-2xl liquid-glass border border-[#1c1917]/10 flex items-center justify-between hover:border-[#f46a06]/40 hover:bg-white/60 transition-all cursor-pointer group/mail"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-[#0f233a] text-[#f46a06] flex items-center justify-center shrink-0">
-                    <Mail className="w-4 h-4" />
+                  <div className="w-10 h-10 rounded-xl bg-[#1c1917] text-[#f46a06] flex items-center justify-center shrink-0">
+                    <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground block">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-[#1c1917]/60 block">
                       Direct Studio Email
                     </span>
-                    <span className="text-xs sm:text-sm font-mono font-bold text-[#0f233a]">
+                    <span className="text-xs sm:text-sm font-mono font-bold text-[#1c1917]">
                       hello@armslyn.tech
                     </span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1.5 text-xs font-mono text-[#f46a06] px-2.5 py-1 rounded-lg bg-[#f46a06]/10">
+                <div className="flex items-center gap-1.5 text-xs font-mono text-[#f46a06] px-3 py-1.5 rounded-lg bg-[#f46a06]/10 font-medium">
                   {copiedEmail ? (
                     <>
                       <Check className="w-3.5 h-3.5 text-emerald-600" />
@@ -223,253 +191,132 @@ export function ContactSection() {
                 </div>
               </div>
 
-              {/* Instant WhatsApp / Founder Ping Card */}
+              {/* Instant WhatsApp Direct Line */}
               <a
-                href="https://wa.me/919940866580?text=Hi%20Armslyn%20Tech%20team,%20I'd%20like%20to%20discuss%20a%20new%20project."
+                href="https://wa.me/919940866580?text=Hi%20Armslyn%20Tech%20team,%20I'd%20like%20to%20ask%20you%20something%20about%20a%20project."
                 target="_blank"
                 rel="noreferrer"
-                className="p-3.5 rounded-2xl liquid-glass border border-[#0f233a]/10 flex items-center justify-between hover:border-emerald-500/40 hover:bg-white/60 transition-all cursor-pointer group/wa"
+                className="p-4 rounded-2xl liquid-glass border border-[#1c1917]/10 flex items-center justify-between hover:border-emerald-600/40 hover:bg-white/60 transition-all cursor-pointer group/wa"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-xs">
-                    <MessageSquare className="w-4 h-4" />
+                  <div className="w-10 h-10 rounded-xl bg-[#1c1917] text-emerald-500 flex items-center justify-center shrink-0">
+                    <MessageSquare className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground block">
-                      Instant Founder Chat
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-[#1c1917]/60 block">
+                      Prefer Informal Chat?
                     </span>
-                    <span className="text-xs sm:text-sm font-mono font-bold text-[#0f233a]">
-                      WhatsApp Direct Line
+                    <span className="text-xs sm:text-sm font-mono font-bold text-[#1c1917]">
+                      WhatsApp the Founders
                     </span>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-1 text-xs font-mono text-emerald-700 font-semibold group-hover/wa:translate-x-0.5 transition-transform">
-                  <span>Chat Now</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </div>
-              </a>
-
-              {/* 20-min Architecture Call */}
-              <a
-                href="mailto:hello@armslyn.tech?subject=Book%20a%20Project%20Discovery%20Call"
-                className="p-3.5 rounded-2xl liquid-glass border border-[#0f233a]/10 flex items-center justify-between hover:border-[#0f233a]/40 hover:bg-white/60 transition-all cursor-pointer group/call"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-[#0f233a] text-white flex items-center justify-center shrink-0">
-                    <Calendar className="w-4 h-4 text-[#f46a06]" />
-                  </div>
-                  <div>
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground block">
-                      Discovery Session
-                    </span>
-                    <span className="text-xs sm:text-sm font-mono font-bold text-[#0f233a]">
-                      Schedule 20-min Review
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-1 text-xs font-mono text-[#0f233a]/80 font-semibold group-hover/call:translate-x-0.5 transition-transform">
-                  <span>Book</span>
+                  <span>Open Chat</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </div>
               </a>
             </div>
 
-            {/* Studio Commitments */}
-            <div className="p-4 rounded-2xl bg-[#0f233a] text-white font-mono text-xs space-y-2.5 border border-white/10 shadow-lg">
+            {/* Reassurance Box (Warm Charcoal, NO Blue) */}
+            <div className="p-4 rounded-2xl bg-[#1c1917] text-white font-mono text-xs space-y-2.5 border border-white/10 shadow-lg">
               <div className="flex items-center justify-between text-[11px] text-[#f46a06] font-bold pb-2 border-b border-white/10">
                 <span className="flex items-center gap-1.5">
-                  <Terminal className="w-3.5 h-3.5" /> STUDIO COMMITMENT
+                  <ShieldCheck className="w-3.5 h-3.5" /> ZERO PRESSURE PROMISE
                 </span>
-                <span className="text-white/50 text-[10px]">Strict SLA</span>
+                <span className="text-white/50 text-[10px]">Human Replies</span>
               </div>
               <div className="flex items-center gap-2 text-white/85 text-[11px]">
-                <Clock className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span>Sub-4 hour response time during business hours</span>
+                <Clock className="w-3.5 h-3.5 text-[#f46a06] shrink-0" />
+                <span>Personal replies within a few hours</span>
               </div>
               <div className="flex items-center gap-2 text-white/85 text-[11px]">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span>100% Fixed Flat-Rate — Zero hourly creep</span>
+                <Sparkles className="w-3.5 h-3.5 text-[#f46a06] shrink-0" />
+                <span>No hard sales tactics or spammy follow-up loops</span>
               </div>
               <div className="flex items-center gap-2 text-white/85 text-[11px]">
-                <Zap className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span>Live Staging URL active by Week One</span>
+                <HelpCircle className="w-3.5 h-3.5 text-[#f46a06] shrink-0" />
+                <span>Happy to give honest feasibility advice even if you don't hire us</span>
               </div>
             </div>
           </div>
 
-          <div className="mt-8 pt-4 border-t border-[#0f233a]/10 flex items-center justify-between text-xs font-mono text-[#0f233a]/60">
-            <span>Global Edge Infrastructure</span>
-            <span className="font-semibold text-[#f46a06]">Standard 100% Client IP</span>
+          <div className="mt-8 pt-4 border-t border-[#1c1917]/10 flex items-center justify-between text-xs font-mono text-[#1c1917]/60">
+            <span>Studio Location: Global (UTC+5:30)</span>
+            <span className="font-semibold text-[#f46a06]">Bespoke Engineering</span>
           </div>
         </div>
 
-        {/* ── RIGHT COLUMN (7 cols): Interactive Project Brief & Scope Configurator ── */}
-        <div className="bento-spotlight-card lg:col-span-7 rounded-3xl p-7 sm:p-9 glass-card border border-[#0f233a]/15 relative overflow-hidden flex flex-col justify-between group transition-all duration-500 hover:border-[#f46a06]/40 hover:shadow-2xl hover:shadow-[#f46a06]/10">
+        {/* ── RIGHT COLUMN (7 cols): Open-Ended Human Conversation Form ── */}
+        <div className="bento-spotlight-card lg:col-span-7 rounded-3xl p-7 sm:p-9 glass-card border border-[#1c1917]/15 relative overflow-hidden flex flex-col justify-between group transition-all duration-500 hover:border-[#f46a06]/40 hover:shadow-2xl hover:shadow-[#f46a06]/10">
           <div className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[radial-gradient(600px_circle_at_var(--mouse-x,0px)_var(--mouse-y,0px),rgba(244,106,6,0.12),transparent_70%)]" />
 
           {submitted ? (
-            /* Interactive Holographic Ticket Receipt */
+            /* Friendly Confirmation State */
             <div className="h-full min-h-[460px] flex flex-col items-center justify-center text-center p-6 sm:p-8">
-              <div className="w-16 h-16 rounded-2xl bg-emerald-500 text-white flex items-center justify-center mb-6 shadow-xl shadow-emerald-500/20 animate-fade-rise">
+              <div className="w-16 h-16 rounded-2xl bg-[#1c1917] text-[#f46a06] flex items-center justify-center mb-6 shadow-xl shadow-[#1c1917]/15 border border-[#f46a06]/30 animate-fade-rise">
                 <CheckCircle2 className="w-9 h-9" />
               </div>
 
-              <span className="text-[11px] font-mono uppercase tracking-widest text-emerald-700 font-bold block mb-2">
-                [PROJECT_BRIEF_TRANSMITTED]
+              <span className="text-[11px] font-mono uppercase tracking-widest text-[#f46a06] font-bold block mb-2">
+                Message Received
               </span>
 
               <h4
-                className="text-3xl sm:text-4xl text-[#0f233a] font-normal mb-3"
+                className="text-3xl sm:text-4xl text-[#1c1917] font-normal mb-3"
                 style={{ fontFamily: "'Instrument Serif', serif" }}
               >
-                Inquiry received & assigned to lead architect.
+                Thanks for reaching out, {formData.name || "friend"}.
               </h4>
 
-              <p className="text-muted-foreground text-sm max-w-md font-light leading-relaxed mb-6">
-                Thank you, <strong className="text-[#0f233a] font-medium">{formData.name}</strong>. We've captured your project scope and will review your specifications with a technical assessment within 4 hours.
+              <p className="text-[#1c1917]/75 text-sm sm:text-base max-w-md font-light leading-relaxed mb-6">
+                Your message went straight to Santosh and our development team's inboxes. We'll read your note and get back to you with a thoughtful reply shortly.
               </p>
-
-              {/* Receipt Specs Box */}
-              <div className="w-full max-w-md p-4 rounded-2xl liquid-glass border border-[#0f233a]/15 font-mono text-xs text-left mb-6 space-y-1.5 text-[#0f233a]">
-                <div className="flex justify-between pb-1.5 border-b border-[#0f233a]/10">
-                  <span className="text-[#0f233a]/60">Scope Type:</span>
-                  <span className="font-bold uppercase text-[#f46a06]">{projectType}</span>
-                </div>
-                <div className="flex justify-between pb-1.5 border-b border-[#0f233a]/10">
-                  <span className="text-[#0f233a]/60">Timeline Model:</span>
-                  <span className="font-bold">{timeline}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-[#0f233a]/60">Routing SLA:</span>
-                  <span className="font-bold text-emerald-700">&lt; 4 Hours Direct Reply</span>
-                </div>
-              </div>
 
               <div className="flex flex-wrap gap-3 justify-center">
                 <a
-                  href={`https://wa.me/919940866580?text=Hi%20Santosh,%20I%20just%20submitted%20a%20project%20brief%20for%20${encodeURIComponent(
+                  href={`https://wa.me/919940866580?text=Hi%20Santosh,%20I'm%20${encodeURIComponent(
                     formData.name
-                  )}%20(${projectType}).%20Let's%20connect!`}
+                  )}%20and%20I%20just%20sent%20you%20a%20message%20through%20your%20site!`}
                   target="_blank"
                   rel="noreferrer"
-                  className="px-5 py-2.5 rounded-xl bg-emerald-600 text-white font-mono text-xs font-bold flex items-center gap-2 hover:bg-emerald-700 transition-all cursor-pointer shadow-md"
+                  className="px-5 py-3 rounded-xl bg-[#1c1917] hover:bg-[#f46a06] text-white font-mono text-xs font-bold flex items-center gap-2 transition-all cursor-pointer shadow-md"
                 >
-                  <MessageSquare className="w-4 h-4" />
-                  <span>Speed Up with WhatsApp Ping</span>
+                  <MessageSquare className="w-4 h-4 text-[#f46a06] group-hover:text-white" />
+                  <span>Ping Us on WhatsApp Too</span>
                 </a>
                 <button
-                  onClick={() => setSubmitted(false)}
-                  className="px-5 py-2.5 rounded-xl liquid-glass border border-[#0f233a]/20 text-[#0f233a] font-mono text-xs font-bold hover:bg-white/80 transition-all cursor-pointer"
+                  onClick={() => {
+                    setSubmitted(false)
+                    setFormData({ name: "", email: "", context: "", message: "" })
+                  }}
+                  className="px-5 py-3 rounded-xl liquid-glass border border-[#1c1917]/20 text-[#1c1917] font-mono text-xs font-bold hover:bg-white/80 transition-all cursor-pointer"
                 >
-                  Submit Another Brief
+                  Send Another Message
                 </button>
               </div>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col justify-between h-full space-y-6">
               <div>
-                {/* Step 1: Project Type Selector */}
-                <div className="mb-5">
-                  <div className="flex items-center justify-between mb-2.5">
-                    <label className="block text-xs font-mono uppercase tracking-wider text-[#0f233a] font-bold">
-                      1. Select Project Archetype
-                    </label>
-                    <span className="text-[10px] font-mono text-muted-foreground">
-                      Efficiency Rating: <strong ref={estimateMeterRef} className="text-[#f46a06]">95%</strong>
-                    </span>
-                  </div>
-
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                    {[
-                      { id: "brand-web", label: "Brand Web" },
-                      { id: "web-app", label: "Web App" },
-                      { id: "motion-experience", label: "Kinetic Motion" },
-                      { id: "design-system", label: "Frontend Revamp" },
-                    ].map((type) => (
-                      <button
-                        key={type.id}
-                        type="button"
-                        onClick={() => setProjectType(type.id as ProjectType)}
-                        className={`py-2 px-2.5 rounded-xl border text-xs font-mono transition-all text-center cursor-pointer ${
-                          projectType === type.id
-                            ? "bg-[#0f233a] text-white border-[#0f233a] font-bold shadow-xs"
-                            : "bg-white/40 text-[#0f233a]/80 border-[#0f233a]/15 hover:bg-white/80"
-                        }`}
-                      >
-                        {type.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Step 2: Capability Chips */}
-                <div className="mb-5">
-                  <label className="block text-xs font-mono uppercase tracking-wider text-[#0f233a] font-bold mb-2">
-                    2. Priority Focus Points (Optional)
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    {[
-                      "Sub-Second Speed",
-                      "60fps Motion",
-                      "Technical SEO",
-                      "Interactive 3D / Shader",
-                      "Figma System",
-                      "TypeScript Architecture",
-                    ].map((chip) => {
-                      const isSelected = selectedChips.includes(chip)
-                      return (
-                        <button
-                          key={chip}
-                          type="button"
-                          onClick={() => toggleChip(chip)}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer border ${
-                            isSelected
-                              ? "bg-[#f46a06]/15 border-[#f46a06] text-[#f46a06] font-bold"
-                              : "liquid-glass border-[#0f233a]/10 text-[#0f233a]/70 hover:text-[#0f233a] hover:border-[#0f233a]/30"
-                          }`}
-                        >
-                          {isSelected ? "✓ " : "+ "}
-                          {chip}
-                        </button>
-                      )
-                    })}
-                  </div>
-                </div>
-
-                {/* Step 3: Target Timeline */}
+                {/* Form Title & Freedom to ask anything */}
                 <div className="mb-6">
-                  <label className="block text-xs font-mono uppercase tracking-wider text-[#0f233a] font-bold mb-2">
-                    3. Target Delivery Window
-                  </label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {[
-                      { id: "fast-track", label: "Fast-Track", time: "2–3 Weeks" },
-                      { id: "standard", label: "Full Custom", time: "4–6 Weeks" },
-                      { id: "retainer", label: "Studio Retainer", time: "Continuous" },
-                    ].map((t) => (
-                      <button
-                        key={t.id}
-                        type="button"
-                        onClick={() => setTimeline(t.id as TimelineType)}
-                        className={`p-2 rounded-xl border text-center transition-all cursor-pointer ${
-                          timeline === t.id
-                            ? "bg-[#0f233a] text-white border-[#0f233a] shadow-xs"
-                            : "bg-white/40 text-[#0f233a]/75 border-[#0f233a]/15 hover:bg-white/70"
-                        }`}
-                      >
-                        <div className="text-xs font-mono font-bold">{t.label}</div>
-                        <div className="text-[10px] opacity-75 font-mono">{t.time}</div>
-                      </button>
-                    ))}
-                  </div>
+                  <h4
+                    className="text-2xl sm:text-3xl text-[#1c1917] font-normal mb-2"
+                    style={{ fontFamily: "'Instrument Serif', serif" }}
+                  >
+                    Tell us what you have in mind.
+                  </h4>
+                  <p className="text-xs sm:text-sm text-[#1c1917]/70 font-light">
+                    Ask a question, describe your vision, or request a ballpark quote. No structured checklist required.
+                  </p>
                 </div>
 
-                {/* Step 4: Contact Input Fields */}
+                {/* Name & Email Row */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                   <div>
-                    <label className="block text-[11px] font-mono uppercase tracking-wider text-[#0f233a]/70 mb-1">
+                    <label className="block text-[11px] font-mono uppercase tracking-wider text-[#1c1917]/80 font-bold mb-1.5">
                       Your Name *
                     </label>
                     <input
@@ -477,14 +324,14 @@ export function ContactSection() {
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="Alex Mercer"
-                      className="w-full px-4 py-2.5 rounded-xl liquid-glass text-[#0f233a] placeholder:text-[#0f233a]/40 focus:outline-none focus:border-[#f46a06] focus:ring-1 focus:ring-[#f46a06]/50 transition-all text-sm font-sans"
+                      placeholder="e.g. Alex"
+                      className="w-full px-4 py-3 rounded-xl liquid-glass text-[#1c1917] placeholder:text-[#1c1917]/40 focus:outline-none focus:border-[#f46a06] focus:ring-1 focus:ring-[#f46a06]/50 transition-all text-sm font-sans"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-mono uppercase tracking-wider text-[#0f233a]/70 mb-1">
-                      Work Email *
+                    <label className="block text-[11px] font-mono uppercase tracking-wider text-[#1c1917]/80 font-bold mb-1.5">
+                      Your Email *
                     </label>
                     <input
                       type="email"
@@ -492,41 +339,75 @@ export function ContactSection() {
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="alex@company.com"
-                      className="w-full px-4 py-2.5 rounded-xl liquid-glass text-[#0f233a] placeholder:text-[#0f233a]/40 focus:outline-none focus:border-[#f46a06] focus:ring-1 focus:ring-[#f46a06]/50 transition-all text-sm font-sans"
+                      className="w-full px-4 py-3 rounded-xl liquid-glass text-[#1c1917] placeholder:text-[#1c1917]/40 focus:outline-none focus:border-[#f46a06] focus:ring-1 focus:ring-[#f46a06]/50 transition-all text-sm font-sans"
                     />
                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-[11px] font-mono uppercase tracking-wider text-[#0f233a]/70 mb-1">
-                    Project Vision & Goals *
+                {/* Optional Context Field */}
+                <div className="mb-4">
+                  <label className="block text-[11px] font-mono uppercase tracking-wider text-[#1c1917]/80 font-bold mb-1.5">
+                    Optional: Website, Figma Link, or Rough Timeline
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.context}
+                    onChange={(e) => setFormData({ ...formData, context: e.target.value })}
+                    placeholder="e.g. https://yourbrand.com, or aiming for launch next month"
+                    className="w-full px-4 py-3 rounded-xl liquid-glass text-[#1c1917] placeholder:text-[#1c1917]/40 focus:outline-none focus:border-[#f46a06] focus:ring-1 focus:ring-[#f46a06]/50 transition-all text-sm font-sans"
+                  />
+                </div>
+
+                {/* Open-Ended Message Field */}
+                <div className="mb-4">
+                  <label className="block text-[11px] font-mono uppercase tracking-wider text-[#1c1917]/80 font-bold mb-1.5">
+                    What can we help you with? *
                   </label>
                   <textarea
-                    rows={3}
+                    rows={5}
                     required
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Tell us what you're looking to launch, your brand goals, target users, or drop a link to existing designs..."
-                    className="w-full px-4 py-2.5 rounded-xl liquid-glass text-[#0f233a] placeholder:text-[#0f233a]/40 focus:outline-none focus:border-[#f46a06] focus:ring-1 focus:ring-[#f46a06]/50 transition-all text-sm font-sans resize-none"
+                    placeholder="Tell us what you're thinking, what you want to build, what questions you have, or any challenges you're facing..."
+                    className="w-full px-4 py-3 rounded-xl liquid-glass text-[#1c1917] placeholder:text-[#1c1917]/40 focus:outline-none focus:border-[#f46a06] focus:ring-1 focus:ring-[#f46a06]/50 transition-all text-sm font-sans resize-none leading-relaxed"
                   />
+                </div>
+
+                {/* Optional Helpful Conversation Starters (Just suggestions, not rigid options!) */}
+                <div>
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-[#1c1917]/60 block mb-1.5">
+                    Need inspiration? Click to add to your note:
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {quickIdeas.map((idea) => (
+                      <button
+                        key={idea}
+                        type="button"
+                        onClick={() => handleApplyIdea(idea)}
+                        className="text-[11px] font-mono px-2.5 py-1 rounded-lg border border-[#1c1917]/10 bg-white/40 text-[#1c1917]/75 hover:border-[#f46a06]/50 hover:text-[#f46a06] hover:bg-white/80 transition-all cursor-pointer"
+                      >
+                        + {idea}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
 
               {/* Submit CTA */}
-              <div>
+              <div className="pt-2">
                 <button
                   type="submit"
-                  className="w-full py-4 px-6 rounded-2xl bg-[#0f233a] hover:bg-[#f46a06] text-white font-mono text-xs uppercase tracking-wider font-bold flex items-center justify-center gap-2.5 shadow-xl shadow-[#0f233a]/15 hover:shadow-[#f46a06]/25 transition-all cursor-pointer group/sub active:scale-[0.99]"
+                  className="w-full py-4 px-6 rounded-2xl bg-[#1c1917] hover:bg-[#f46a06] text-white font-mono text-xs uppercase tracking-wider font-bold flex items-center justify-center gap-2.5 shadow-xl shadow-[#1c1917]/15 hover:shadow-[#f46a06]/25 transition-all cursor-pointer group/sub active:scale-[0.99]"
                 >
-                  <span>Transmit Project Brief to Lead Architect</span>
+                  <span>Send Message Directly to Team</span>
                   <Send className="w-4 h-4 transition-transform group-hover/sub:translate-x-1" />
                 </button>
-                <div className="flex items-center justify-between text-[10px] font-mono text-muted-foreground mt-2.5 px-1">
+                <div className="flex items-center justify-between text-[10px] font-mono text-[#1c1917]/60 mt-2.5 px-1">
                   <span className="flex items-center gap-1">
                     <Sparkles className="w-3 h-3 text-[#f46a06]" />
-                    Direct engineer evaluation
+                    Direct founder review
                   </span>
-                  <span>Guaranteed response &lt; 4 hours</span>
+                  <span>Human replies within hours</span>
                 </div>
               </div>
             </form>
